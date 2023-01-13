@@ -1,12 +1,12 @@
 import { Col, Spin } from 'antd';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { constants } from '../../config';
 import { UserLoading } from '../../types/user.types';
 import { Container } from './styled-components';
 
 const Root = () => {
-  // for fix error with generic types
+  // as unknown for fix error with generic types
   const { userPromise } = (useLoaderData() as unknown) as UserLoading;
   const navigate = useNavigate();
 

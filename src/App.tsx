@@ -1,4 +1,3 @@
-import React from 'react';
 import { createBrowserRouter, defer, RouterProvider } from 'react-router-dom';
 import 'antd/dist/reset.css';
 import { constants } from './config';
