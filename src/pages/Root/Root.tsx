@@ -1,20 +1,26 @@
 import { Col, Spin } from 'antd';
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { constants } from '../../config';
+import { UserLoading } from '../../types/user.types';
 import { Container } from './styled-components';
 
 const Root = () => {
-  const isUserLoggedIn = true;
+  // for fix error with generic types
+  const { userPromise } = (useLoaderData() as unknown) as UserLoading;
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isUserLoggedIn) {
-      setTimeout(() => navigate(constants.routes.Home), 1000);
-    }
+    (async () => {
+      const user = await userPromise;
 
-    setTimeout(() => navigate(constants.routes.Login), 1000);
-  }, [isUserLoggedIn, navigate]);
+      if (user) {
+        navigate(constants.routes.Home);
+      } else {
+        navigate(constants.routes.Login);
+      }
+    })();
+  }, [navigate, userPromise]);
 
   return (
     <Container justify="center" align="middle">

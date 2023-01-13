@@ -1,14 +1,16 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, defer, RouterProvider } from 'react-router-dom';
 import 'antd/dist/reset.css';
 import { constants } from './config';
 import { ErrorPage, Home, Login, Root } from './pages';
+import { getUserData } from './pages/Root/helpers';
 
 const router = createBrowserRouter([
   {
     path: constants.routes.Root,
     element: <Root />,
     errorElement: <ErrorPage />,
+    loader: () => defer({ userPromise: getUserData() }),
   },
   {
     path: constants.routes.Home,
