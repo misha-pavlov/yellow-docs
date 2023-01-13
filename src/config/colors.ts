@@ -5,5 +5,8 @@ export const colors = {
 
   purple: '#4E1E7C',
 
-  black: '#030303'
+  black: '#030303',
+
+  yellow500: '#FFEB3B',
+  yellow600: '#FDD835',
 };
