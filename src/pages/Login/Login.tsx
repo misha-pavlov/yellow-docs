@@ -28,7 +28,7 @@ const Login = () => {
 
       <RightSide align="middle">
         <p className="wellcome">Wellcome</p>
-        <Tabs defaultActiveKey="1" items={tabItems} />
+        <Tabs defaultActiveKey="1" items={tabItems} centered />
       </RightSide>
     </Container>
   );

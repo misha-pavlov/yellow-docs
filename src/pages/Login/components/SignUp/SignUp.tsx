@@ -33,7 +33,7 @@ const SignUp = () => {
       <Form.Item
         label="First name"
         name="firstName"
-        rules={[{ required: true, message: 'Please input your username!' }]}
+        rules={[{ required: true, message: 'Please input your first name!' }]}
         validateStatus={formik.errors.firstName ? 'error' : 'validating'}
         help={formik.errors.firstName}
       >
@@ -49,7 +49,7 @@ const SignUp = () => {
       <Form.Item
         label="Last name"
         name="lastName"
-        rules={[{ required: true, message: 'Please input your username!' }]}
+        rules={[{ required: true, message: 'Please input your last name!' }]}
         validateStatus={formik.errors.lastName ? 'error' : 'validating'}
         help={formik.errors.lastName}
       >
@@ -65,7 +65,7 @@ const SignUp = () => {
       <Form.Item
         label="Email"
         name="email"
-        rules={[{ required: true, message: 'Please input your username!' }]}
+        rules={[{ required: true, message: 'Please input your email!' }]}
         validateStatus={formik.errors.email ? 'error' : 'validating'}
         help={formik.errors.email}
       >

@@ -31,7 +31,7 @@ const SignIn = () => {
       <Form.Item
         label="Email"
         name="email"
-        rules={[{ required: true, message: 'Please input your username!' }]}
+        rules={[{ required: true, message: 'Please input your email!' }]}
         validateStatus={formik.errors.email ? 'error' : 'validating'}
         help={formik.errors.email}
       >

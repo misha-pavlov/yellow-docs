@@ -21,6 +21,7 @@ export const LeftSide = styled(Row)`
   .somethingLikeText {
     font-size: 18px;
     margin-bottom: 20%;
+    color: ${colors.white};
   }
 `;
 
