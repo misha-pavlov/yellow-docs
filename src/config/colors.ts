@@ -6,6 +6,7 @@ export const colors = {
   white2: '#FFF',
   white3: '#F1F3F4',
   white4: '#dadce0',
+  white5: '#E3E5E6',
 
   purple: '#4E1E7C',
 

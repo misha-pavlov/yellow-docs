@@ -16,5 +16,9 @@ export const Container = styled.div`
       background-color: ${colors.white4};
       height: 30px;
     }
+
+    .active {
+      background-color: ${colors.white5};
+    }
   }
 `;

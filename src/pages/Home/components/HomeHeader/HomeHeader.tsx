@@ -1,11 +1,22 @@
-import { BookTwoTone, MenuOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  ArrowLeftOutlined,
+  BookTwoTone,
+  MenuOutlined,
+  SearchOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { Avatar, Button, Input, Tooltip } from 'antd';
-import { useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { colors } from '../../../../config';
 import { AvatarMenu, Sidebar } from './components';
 import { Container } from './styled-components';
 
-const HomeHeader = () => {
+type HomeHeaderProps = {
+  showOnlyTemplates: boolean;
+  toggleShowOnlyTemplates: VoidFunction;
+};
+
+const HomeHeader: FC<HomeHeaderProps> = ({ showOnlyTemplates, toggleShowOnlyTemplates }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [showAvatarMenu, setShowAvatarMenu] = useState(false);
 
@@ -27,7 +38,13 @@ const HomeHeader = () => {
     [showAvatarMenu, toggleShowAvatarMenu]
   );
 
-  return (
+  return showOnlyTemplates ? (
+    <Container>
+      <Button type="text" shape="round" icon={<ArrowLeftOutlined />} size="large" onClick={toggleShowOnlyTemplates}>
+        Template gallery
+      </Button>
+    </Container>
+  ) : (
     <>
       <Container>
         <div className="align-block">

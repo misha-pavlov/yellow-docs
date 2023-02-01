@@ -1,10 +1,19 @@
+import { FC } from 'react';
 import { TemplatesHeader } from './components';
 import { Container } from './styled-components';
 
-const Templates = () => {
+type TemplatesProps = {
+  showOnlyTemplates: boolean;
+  toggleShowOnlyTemplates: VoidFunction;
+};
+
+const Templates: FC<TemplatesProps> = ({ showOnlyTemplates, toggleShowOnlyTemplates }) => {
   return (
     <Container>
-      <TemplatesHeader />
+      <TemplatesHeader
+        showOnlyTemplates={showOnlyTemplates}
+        toggleShowOnlyTemplates={toggleShowOnlyTemplates}
+      />
       Templates
     </Container>
   );
