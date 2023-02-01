@@ -1,5 +1,8 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { flipInX } from 'react-animations';
 import { colors } from '../../../../config';
+
+const flipAnimation = keyframes`${flipInX}`;
 
 export const Container = styled.div`
   display: flex;
@@ -7,6 +10,7 @@ export const Container = styled.div`
   align-items: center;
   padding: 8px 20px;
   background-color: ${colors.white2};
+  animation: 1s ${flipAnimation};
 
   .align-block {
     display: flex;
