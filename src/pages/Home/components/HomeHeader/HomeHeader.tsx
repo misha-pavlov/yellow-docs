@@ -6,17 +6,16 @@ import { Sidebar } from './components';
 import { Container } from './styled-components';
 
 const HomeHeader = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
-  const toggleCollapsed = useCallback(() => {
-    setCollapsed(prevProps => !prevProps);
+  const toggleIsCollapsed = useCallback(() => {
+    setIsCollapsed(prevProps => !prevProps);
   }, []);
 
-  const renderSidebar = useMemo(() => {
-    if (!collapsed) {
-      return <Sidebar onPressOutside={toggleCollapsed} />;
-    }
-  }, [collapsed, toggleCollapsed]);
+  const renderSidebar = useMemo(
+    () => <>{!isCollapsed && <Sidebar onPressOutside={toggleIsCollapsed} />}</>,
+    [isCollapsed, toggleIsCollapsed]
+  );
 
   return (
     <>
@@ -27,7 +26,7 @@ const HomeHeader = () => {
             size="large"
             shape="circle"
             icon={<MenuOutlined />}
-            onClick={toggleCollapsed}
+            onClick={toggleIsCollapsed}
           />
 
           <BookTwoTone twoToneColor={colors.yellow600} style={{ fontSize: 28 }} />
