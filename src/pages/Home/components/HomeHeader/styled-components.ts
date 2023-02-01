@@ -26,4 +26,8 @@ export const Container = styled.div`
     border-radius: 8px;
     background-color: ${colors.white3};
   }
+
+  .avatar {
+    cursor: pointer;
+  }
 `;

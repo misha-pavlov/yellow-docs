@@ -14,7 +14,6 @@ const Sidebar: FC<SidebarProps> = ({ onPressOutside }) => {
 
   const onClick = () => {
     setAnim(Fade.FadeOut);
-
     setTimeout(onPressOutside, 1000);
   };
 
