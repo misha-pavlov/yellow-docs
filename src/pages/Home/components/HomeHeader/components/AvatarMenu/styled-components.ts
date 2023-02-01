@@ -8,6 +8,7 @@ const zoomOutAnimation = keyframes`${zoomOut}`;
 
 export const Container = styled.div<{ anim: Zoom }>`
   position: absolute;
+  z-index: 1500;
   background-color: transparent;
   top: 0;
   width: 100%;

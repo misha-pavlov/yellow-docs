@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { HomeHeader, Templates } from './components';
+import { HomeHeader, RecentDocuments, Templates } from './components';
 import { Container } from './styled-components';
 
 const Home = () => {
@@ -19,7 +19,8 @@ const Home = () => {
         showOnlyTemplates={showOnlyTemplates}
         toggleShowOnlyTemplates={toggleShowOnlyTemplates}
       />
-      Home
+
+      <RecentDocuments showOnlyTemplates={showOnlyTemplates} />
     </Container>
   );
 };
