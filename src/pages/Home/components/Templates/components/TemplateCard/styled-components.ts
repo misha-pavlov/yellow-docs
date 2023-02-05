@@ -12,6 +12,7 @@ export const CardContainer = styled.div`
   height: 200px;
   border: 1px solid ${colors.white2};
   cursor: pointer;
+  border-radius: 5px;
 
   &:hover {
     border-color: ${colors.green};

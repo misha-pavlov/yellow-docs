@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react';
+import { Header } from './components';
 import { Container } from './styled-components';
 import { Slide } from './types';
 
@@ -21,7 +22,13 @@ const RecentDocuments: FC<RecentDocumentsProps> = ({ showOnlyTemplates }) => {
     }
   }, [anim, showOnlyTemplates]);
 
-  return showComponent ? <Container anim={anim}>RecentDocuments</Container> : null;
+  return showComponent ? (
+    <Container anim={anim}>
+      <div className="main-content">
+        <Header />
+      </div>
+    </Container>
+  ) : null;
 };
 
 export default RecentDocuments;
