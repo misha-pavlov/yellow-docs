@@ -1,34 +1,45 @@
 import styled from 'styled-components';
 import { colors } from '../../../../../../config';
 
-export const Container = styled.div`
+export const Container = styled.div<{ isSticky: boolean }>`
+  padding: 20px 0;
+  position: sticky;
+  top: 64px;
+  background-color: ${colors.white2};
+  z-index: 1;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  justify-content: center;
+  ${({ isSticky }) => isSticky && `box-shadow: 0 10px 19px -21px ${colors.black};`};
 
-  .right {
-    font-size: 16px;
-  }
-
-  .left {
+  .header-wrapper {
+    width: 75%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 85px;
 
-    .active {
-      background-color: ${colors.white5};
+    .right {
+      font-size: 16px;
     }
 
-    .icons-row {
+    .left {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 85px;
+
+      .active {
+        background-color: ${colors.white5};
+      }
+
+      .icons-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
     }
   }
 `;

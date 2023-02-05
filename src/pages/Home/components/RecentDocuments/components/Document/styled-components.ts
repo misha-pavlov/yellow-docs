@@ -6,6 +6,7 @@ export const Container = styled.div`
   width: 250px;
   height: 350px;
   border-radius: 5px;
+  cursor: pointer;
 
   &:hover {
     border-color: ${colors.green};

@@ -10,13 +10,15 @@ export const Container = styled.div<{ anim: Slide }>`
   animation: 1s
     ${({ anim }) => (anim === Slide.SlideInUp ? slideInUpAnimation : slideOutDownAnimation)};
   background-color: ${colors.white2};
-  width: 100%;
-  height: 100%;
-  padding-top: 20px;
-  display: flex;
-  justify-content: center;
 
-  .main-content {
-    width: 75%;
+  .wrapper {
+    width: 100%;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
+
+    .main-content {
+      width: 75%;
+    }
   }
 `;

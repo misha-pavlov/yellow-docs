@@ -32,10 +32,16 @@ const RecentDocuments: FC<RecentDocumentsProps> = ({ showOnlyTemplates }) => {
   }, []);
 
   return showComponent ? (
+    // TODO: add prop if recent documents length 0 set height 100%
     <Container anim={anim}>
-      <div className="main-content">
+      <div>
         <Header />
-        <Row gutter={[40, 40]}>{renderCols}</Row>
+
+        <div className="wrapper">
+          <div className="main-content">
+            <Row gutter={[40, 40]}>{renderCols}</Row>
+          </div>
+        </div>
       </div>
     </Container>
   ) : null;

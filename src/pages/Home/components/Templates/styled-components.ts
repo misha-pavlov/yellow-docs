@@ -7,7 +7,7 @@ export const Container = styled.div`
   .render-templates {
     display: flex;
     flex-direction: row;
-    gap: 16px;
+    gap: 13px;
     margin-bottom: 20px;
   }
 `;

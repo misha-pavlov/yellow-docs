@@ -12,6 +12,9 @@ export const Container = styled.div`
   padding: 8px 20px;
   background-color: ${colors.white2};
   animation: 1s ${flipAnimation};
+  position: sticky;
+  top: 0;
+  z-index: 1;
 
   .align-block {
     display: flex;
