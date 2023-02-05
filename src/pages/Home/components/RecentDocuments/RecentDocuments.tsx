@@ -1,5 +1,6 @@
-import { FC, useEffect, useState } from 'react';
-import { Header } from './components';
+import { Col, Row } from 'antd';
+import { FC, useEffect, useMemo, useState } from 'react';
+import { Header, Document } from './components';
 import { Container } from './styled-components';
 import { Slide } from './types';
 
@@ -22,10 +23,19 @@ const RecentDocuments: FC<RecentDocumentsProps> = ({ showOnlyTemplates }) => {
     }
   }, [anim, showOnlyTemplates]);
 
+  const renderCols = useMemo(() => {
+    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => (
+      <Col span={6}>
+        <Document />
+      </Col>
+    ));
+  }, []);
+
   return showComponent ? (
     <Container anim={anim}>
       <div className="main-content">
         <Header />
+        <Row gutter={[40, 40]}>{renderCols}</Row>
       </div>
     </Container>
   ) : null;

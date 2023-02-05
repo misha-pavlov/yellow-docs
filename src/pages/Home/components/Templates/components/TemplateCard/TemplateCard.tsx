@@ -1,5 +1,5 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { CardContainer, CardInfoContainer, CardWrapper } from './styled-components';
 
 type TemplateCardProps = {
@@ -29,4 +29,4 @@ const TemplateCard: FC<TemplateCardProps> = ({ title, subTitle, isBlankCard }) =
   );
 };
 
-export default TemplateCard;
+export default memo(TemplateCard);
