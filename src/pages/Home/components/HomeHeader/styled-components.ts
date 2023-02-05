@@ -14,7 +14,7 @@ export const Container = styled.div`
   animation: 1s ${flipAnimation};
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 3;
 
   .align-block {
     display: flex;
@@ -28,7 +28,7 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     border-radius: 8px;
-    background-color: ${colors.white3};
+    background-color: ${colors.white1};
   }
 
   .avatar {

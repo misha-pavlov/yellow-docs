@@ -5,13 +5,14 @@ import { Container } from './styled-components';
 type TemplatesProps = {
   showOnlyTemplates: boolean;
   toggleShowOnlyTemplates: VoidFunction;
+  isInModal?: boolean;
 };
 
 const BLANK = 'Blank';
 
-const Templates: FC<TemplatesProps> = ({ showOnlyTemplates, toggleShowOnlyTemplates }) => {
+const Templates: FC<TemplatesProps> = ({ showOnlyTemplates, toggleShowOnlyTemplates, isInModal }) => {
   return (
-    <Container>
+    <Container isInModal={isInModal}>
       <TemplatesHeader
         showOnlyTemplates={showOnlyTemplates}
         toggleShowOnlyTemplates={toggleShowOnlyTemplates}

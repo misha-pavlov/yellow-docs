@@ -10,7 +10,7 @@ export const Container = styled.div`
   margin-right: 20px;
 
   &:hover {
-    background-color: ${colors.white3};
+    background-color: ${colors.white1};
     border-bottom-right-radius: 50px;
     border-top-right-radius: 50px;
   }
