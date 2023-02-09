@@ -29,18 +29,24 @@ const HomeHeader: FC<HomeHeaderProps> = ({ showOnlyTemplates, toggleShowOnlyTemp
   }, []);
 
   const renderSidebar = useMemo(
-    () => <>{!isCollapsed && <Sidebar onPressOutside={toggleIsCollapsed} />}</>,
+    () => !isCollapsed && <Sidebar onPressOutside={toggleIsCollapsed} />,
     [isCollapsed, toggleIsCollapsed]
   );
 
   const renderAvatarMenu = useMemo(
-    () => <>{showAvatarMenu && <AvatarMenu onPressOutside={toggleShowAvatarMenu} />}</>,
+    () => showAvatarMenu && <AvatarMenu onPressOutside={toggleShowAvatarMenu} />,
     [showAvatarMenu, toggleShowAvatarMenu]
   );
 
   return showOnlyTemplates ? (
     <Container>
-      <Button type="text" shape="round" icon={<ArrowLeftOutlined />} size="large" onClick={toggleShowOnlyTemplates}>
+      <Button
+        type="text"
+        shape="round"
+        icon={<ArrowLeftOutlined />}
+        size="large"
+        onClick={toggleShowOnlyTemplates}
+      >
         Template gallery
       </Button>
     </Container>

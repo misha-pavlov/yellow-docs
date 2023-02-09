@@ -1,13 +1,13 @@
 import styled, { keyframes } from 'styled-components';
-import { zoomIn, zoomOut } from 'react-animations';
+import { bounceInRight, bounceOutRight } from 'react-animations';
 import { colors } from '../../../../../../config';
-import { Zoom } from './types';
+import { Bounce } from './types';
 
-const zoomInAnimation = keyframes`${zoomIn}`;
-const zoomOutAnimation = keyframes`${zoomOut}`;
+const bounceInRightAnimation = keyframes`${bounceInRight}`;
+const bounceOutRightAnimation = keyframes`${bounceOutRight}`;
 
-export const Container = styled.div<{ anim: Zoom }>`
-  position: absolute;
+export const Container = styled.div<{ anim: Bounce }>`
+  position: fixed;
   z-index: 1500;
   background-color: transparent;
   top: 0;
@@ -16,7 +16,9 @@ export const Container = styled.div<{ anim: Zoom }>`
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-  animation: 1s ${({ anim }) => (anim === Zoom.ZoomIn ? zoomInAnimation : zoomOutAnimation)};
+  animation: 1s
+    ${({ anim }) =>
+      anim === Bounce.BounceInRight ? bounceInRightAnimation : bounceOutRightAnimation};
 
   .menu {
     background-color: ${colors.white2};

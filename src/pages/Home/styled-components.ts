@@ -1,15 +1,28 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { rotateIn, flipOutY, slideInDown, slideOutUp } from 'react-animations';
 import { colors } from '../../config';
+import { Flip, Rotate, Slide } from './types';
 
-export const Container = styled.div`
+const rotateInAnimation = keyframes`${rotateIn}`;
+const flipOutYAnimation = keyframes`${flipOutY}`;
+const slideInDownAnimation = keyframes`${slideInDown}`;
+const slideOutUpAnimation = keyframes`${slideOutUp}`;
+
+export const Container = styled.div<{ floatButtonAnim: Rotate | Flip }>`
   background-color: ${colors.white1};
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .rotate-button {
+    animation: 1s
+      ${({ floatButtonAnim }) =>
+        floatButtonAnim === Rotate.RotateIn ? rotateInAnimation : flipOutYAnimation};
+  }
 `;
 
-export const TemplatesModal = styled.div`
+export const TemplatesModal = styled.div<{ templatesModalAnim: Slide }>`
   background-color: transparent;
   width: 100%;
   height: 100vh;
@@ -24,5 +37,8 @@ export const TemplatesModal = styled.div`
     background-color: ${colors.white1};
     width: 100%;
     padding-left: 12.5%;
+    animation: 1s
+      ${({ templatesModalAnim }) =>
+        templatesModalAnim === Slide.SlideInDown ? slideOutUpAnimation : slideInDownAnimation};
   }
 `;

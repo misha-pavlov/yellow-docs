@@ -8,7 +8,8 @@ const fadeOutAnimation = keyframes`${fadeOutLeft}`;
 
 export const Container = styled.div<{ anim: Fade }>`
   background-color: transparent;
-  position: absolute;
+  z-index: 3;
+  position: fixed;
   top: 0;
   width: 100%;
   height: 100vh;

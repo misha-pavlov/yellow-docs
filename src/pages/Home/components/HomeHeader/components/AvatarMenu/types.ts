@@ -1,4 +1,4 @@
-export enum Zoom {
-    ZoomIn = 'ZoomIn',
-    ZoomOut = 'ZoomOut',
-  }
+export enum Bounce {
+  BounceInRight = 'BounceInRight',
+  BounceOutRight = 'BounceOutRight',
+}

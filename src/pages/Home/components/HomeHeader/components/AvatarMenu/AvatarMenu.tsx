@@ -2,17 +2,17 @@ import { ExportOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button } from 'antd';
 import { FC, useState } from 'react';
 import { Container } from './styled-components';
-import { Zoom } from './types';
+import { Bounce } from './types';
 
 type AvatarMenuProps = {
   onPressOutside: VoidFunction;
 };
 
 const AvatarMenu: FC<AvatarMenuProps> = ({ onPressOutside }) => {
-  const [anim, setAnim] = useState(Zoom.ZoomIn);
+  const [anim, setAnim] = useState(Bounce.BounceInRight);
 
   const onClick = () => {
-    setAnim(Zoom.ZoomOut);
+    setAnim(Bounce.BounceOutRight);
     setTimeout(onPressOutside, 1000);
   };
 
