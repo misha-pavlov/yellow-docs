@@ -20,6 +20,11 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
     gap: 16px;
+
+    .icon {
+      color: ${colors.yellow600};
+      font-size: 28px;
+    }
   }
 
   .input-block {

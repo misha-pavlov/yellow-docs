@@ -23,6 +23,11 @@ export const LeftSide = styled(Row)`
     margin-bottom: 20%;
     color: ${colors.white};
   }
+
+  .icon {
+    font-size: 400px;
+    color: ${colors.yellow600};
+  }
 `;
 
 export const RightSide = styled(Row)`

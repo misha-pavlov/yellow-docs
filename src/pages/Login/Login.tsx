@@ -1,6 +1,5 @@
-import { BookTwoTone } from '@ant-design/icons';
+import { FileTextOutlined } from '@ant-design/icons';
 import { Tabs, TabsProps } from 'antd';
-import { colors } from '../../config';
 import { SignIn, SignUp } from './components';
 import { Container, LeftSide, RightSide } from './styled-components';
 
@@ -23,7 +22,7 @@ const Login = () => {
       <LeftSide>
         <p className="yellowDocs">Yellow docs</p>
         <p className="somethingLikeText">Something like google docs</p>
-        <BookTwoTone twoToneColor={colors.yellow600} style={{ fontSize: 400 }} />
+        <FileTextOutlined className="icon" />
       </LeftSide>
 
       <RightSide align="middle">
