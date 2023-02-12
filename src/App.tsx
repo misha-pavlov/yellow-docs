@@ -1,7 +1,7 @@
 import { createBrowserRouter, defer, RouterProvider } from 'react-router-dom';
 import 'antd/dist/reset.css';
 import { constants } from './config';
-import { ErrorPage, Home, Login, Root } from './pages';
+import { ErrorPage, Home, Login, Root, Document } from './pages';
 import { getUserData } from './pages/Root/helpers';
 
 const router = createBrowserRouter([
@@ -21,20 +21,15 @@ const router = createBrowserRouter([
     element: <Login />,
     errorElement: <ErrorPage />,
   },
-  // example router with id
-  // {
-  //   path: "contacts/:contactId",
-  //   element: <Example />,
-  //   errorElement: <ErrorPage />,
-  // },
+  {
+    path: `${constants.routes.Document}/:documentId`,
+    element: <Document />,
+    errorElement: <ErrorPage />,
+  },
 ]);
 
 const App = () => {
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;

@@ -6,11 +6,12 @@ type TemplateCardProps = {
   title: string;
   subTitle?: string;
   isBlankCard?: boolean;
+  onClick: () => void;
 };
 
-const TemplateCard: FC<TemplateCardProps> = ({ title, subTitle, isBlankCard }) => {
+const TemplateCard: FC<TemplateCardProps> = ({ title, subTitle, isBlankCard, onClick }) => {
   return (
-    <CardWrapper>
+    <CardWrapper onClick={onClick}>
       <CardContainer>
         {isBlankCard ? (
           <div className="plus-block">

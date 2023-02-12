@@ -1,15 +1,19 @@
 import { useMemo, useState } from 'react';
 import { FloatButton } from 'antd';
 import { EditOutlined, FileOutlined, PlusOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import { HomeHeader, RecentDocuments, Templates } from './components';
 import { Container, TemplatesModal } from './styled-components';
 import { Flip, Rotate, Slide } from './types';
+import { constants } from '../../config';
 
 const Home = () => {
   const [showOnlyTemplates, setShowOnlyTemplates] = useState(false);
   const [showTemplatesModal, setShowTemplatesModal] = useState(false);
   const [floatButtonAnim, setFloatButtonAnim] = useState<Rotate | Flip>(Rotate.RotateIn);
   const [templatesModalAnim, setTemplatesModalAnim] = useState(Slide.SlideInDown);
+
+  const navigate = useNavigate();
 
   const toggleShowOnlyTemplates = () => {
     setShowOnlyTemplates(prevProps => !prevProps);
@@ -27,7 +31,8 @@ const Home = () => {
 
   const renderFloatButtons = useMemo(() => {
     // change float button if showTemplates === false
-    if (true) {
+    const something = null;
+    if (something) {
       return (
         <FloatButton.Group
           trigger="hover"
@@ -43,8 +48,7 @@ const Home = () => {
           <FloatButton
             icon={<EditOutlined />}
             tooltip={<div>Create new document</div>}
-            // use a function for change page
-            onClick={() => console.log('Move to new doc page')}
+            onClick={() => navigate(`${constants.routes.Document}/123`)}
           />
         </FloatButton.Group>
       );
@@ -61,7 +65,7 @@ const Home = () => {
         />
       )
     );
-  }, [showTemplatesModal]);
+  }, [navigate, showTemplatesModal]);
 
   return (
     <>
