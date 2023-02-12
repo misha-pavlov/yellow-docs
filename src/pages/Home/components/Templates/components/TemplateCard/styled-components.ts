@@ -31,11 +31,13 @@ export const CardContainer = styled.div`
   }
 `;
 
-export const CardInfoContainer = styled.div`
+export const CardInfoContainer = styled.div<{ isBlankCard?: boolean }>`
   margin-top: 12px;
 
   .title {
     font-weight: 500;
+    /* for cards which without sub-title */
+    ${({ isBlankCard }) => isBlankCard && 'margin-bottom: 13px'}
   }
 
   .sub-title {

@@ -1,3 +1,4 @@
+import { Space } from 'antd';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { constants } from '../../../../config';
@@ -26,7 +27,7 @@ const Templates: FC<TemplatesProps> = ({
         toggleShowOnlyTemplates={toggleShowOnlyTemplates}
       />
 
-      <div className="render-templates">
+      <Space size={14} className="render-templates">
         <TemplateCard
           isBlankCard
           title={BLANK}
@@ -54,7 +55,7 @@ const Templates: FC<TemplatesProps> = ({
           subTitle="Geometric"
           onClick={() => console.log('123')}
         />
-      </div>
+      </Space>
     </Container>
   );
 };

@@ -1,5 +1,5 @@
 import { ColumnHeightOutlined, MoreOutlined } from '@ant-design/icons';
-import { Button, Divider, Dropdown, MenuProps } from 'antd';
+import { Button, Divider, Dropdown, MenuProps, Space } from 'antd';
 import { FC, useState } from 'react';
 import { Container } from './styled-components';
 
@@ -26,11 +26,11 @@ const TemplatesHeader: FC<TemplatesHeaderProps> = ({
   };
 
   return (
-    <Container>
+    <Container align="center">
       <div className="title">{showOnlyTemplates ? 'Recently used' : 'Start a new document'}</div>
 
       {!showOnlyTemplates && (
-        <div className="right-side">
+        <Space align="center" className="right-side">
           <Button type="text" icon={<ColumnHeightOutlined />} onClick={toggleShowOnlyTemplates}>
             Template gallery
           </Button>
@@ -45,7 +45,7 @@ const TemplatesHeader: FC<TemplatesHeaderProps> = ({
               {...(isShowDropdown && { className: 'active' })}
             />
           </Dropdown>
-        </div>
+        </Space>
       )}
     </Container>
   );

@@ -4,7 +4,7 @@ import {
   MenuOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
-import { Button, Input } from 'antd';
+import { Button, Input, Space } from 'antd';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { UserAvatar } from '../../../../components';
 import { Sidebar } from './components';
@@ -42,7 +42,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({ showOnlyTemplates, toggleShowOnlyTemp
   ) : (
     <>
       <Container>
-        <div className="align-block">
+        <Space className="align-block">
           <Button
             type="text"
             size="large"
@@ -52,7 +52,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({ showOnlyTemplates, toggleShowOnlyTemp
           />
 
           <FileTextOutlined className="icon" />
-        </div>
+        </Space>
 
         <div className="input-block">
           <Input size="large" placeholder="Search" prefix={<SearchOutlined />} bordered={false} />

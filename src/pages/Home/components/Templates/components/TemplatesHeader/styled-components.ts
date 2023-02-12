@@ -1,19 +1,17 @@
+import { Space } from 'antd';
 import styled from 'styled-components';
 import { colors } from '../../../../../../config';
 
-export const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+export const Container = styled(Space)`
   padding-bottom: 25px;
+  justify-content: space-between;
+  width: 100%;
 
   .title {
     font-size: 16px;
   }
 
   .right-side {
-    display: flex;
-    align-items: center;
     justify-content: space-between;
 
     .divider {

@@ -1,15 +1,19 @@
 import { FileTextOutlined, StarOutlined, TeamOutlined } from '@ant-design/icons';
 import { Button, Space, Typography } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import { UserAvatar } from '../../../../components';
+import { constants } from '../../../../config';
 import { Container } from './styled-components';
 
 const { Text } = Typography;
 
 const DocumentHeader = () => {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <Space size={16}>
-        <FileTextOutlined className="icon" />
+        <FileTextOutlined className="icon" onClick={() => navigate(constants.routes.Home)} />
 
         <Space direction="vertical" size={0}>
           <Space>
@@ -20,7 +24,9 @@ const DocumentHeader = () => {
 
           <Space>
             <div className="options">options</div>
-            <Text underline  className="options">Last edit was made on 'day data' by 'user'</Text>
+            <Text underline className="options">
+              Last edit was made on 'day data' by 'user'
+            </Text>
           </Space>
         </Space>
       </Space>

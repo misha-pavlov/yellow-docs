@@ -13,9 +13,6 @@ export const Container = styled.div<{ isSticky: boolean }>`
 
   .header-wrapper {
     width: 75%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: space-between;
 
     .right {
@@ -23,22 +20,10 @@ export const Container = styled.div<{ isSticky: boolean }>`
     }
 
     .left {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
       justify-content: space-between;
-      gap: 85px;
 
       .active {
         background-color: ${colors.white5};
-      }
-
-      .icons-row {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
       }
     }
   }

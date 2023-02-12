@@ -16,15 +16,9 @@ export const Container = styled.div`
   top: 0;
   z-index: 3;
 
-  .align-block {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-
-    .icon {
-      color: ${colors.yellow600};
-      font-size: 28px;
-    }
+  .icon {
+    color: ${colors.yellow600};
+    font-size: 28px;
   }
 
   .input-block {

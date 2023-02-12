@@ -22,7 +22,7 @@ const TemplateCard: FC<TemplateCardProps> = ({ title, subTitle, isBlankCard, onC
         )}
       </CardContainer>
 
-      <CardInfoContainer>
+      <CardInfoContainer isBlankCard={isBlankCard}>
         <div className="title">{title}</div>
         {subTitle && <div className="sub-title">{subTitle}</div>}
       </CardInfoContainer>

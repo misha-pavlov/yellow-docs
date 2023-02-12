@@ -4,7 +4,7 @@ import {
   FolderOutlined,
   SortAscendingOutlined,
 } from '@ant-design/icons';
-import { Button, Dropdown, MenuProps, Tooltip } from 'antd';
+import { Button, Dropdown, MenuProps, Space, Tooltip } from 'antd';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Container } from './styled-components';
 
@@ -83,9 +83,9 @@ const Header = () => {
 
   return (
     <Container ref={stickyRef} isSticky={isSticky}>
-      <div className="header-wrapper">
+      <Space align="center" className="header-wrapper">
         <div className="right">Recent documents</div>
-        <div className="left">
+        <Space size={85} align="center" className="left">
           <Dropdown
             menu={{
               items: owned,
@@ -106,7 +106,7 @@ const Header = () => {
             </Button>
           </Dropdown>
 
-          <div className="icons-row">
+          <Space align="center" size={10}>
             <Tooltip placement="bottom" title="List view">
               <Button type="text" icon={<DatabaseOutlined />} />
             </Tooltip>
@@ -118,9 +118,9 @@ const Header = () => {
             <Tooltip placement="bottom" title="Open file picker">
               <Button type="text" icon={<FolderOutlined />} />
             </Tooltip>
-          </div>
-        </div>
-      </div>
+          </Space>
+        </Space>
+      </Space>
     </Container>
   );
 };

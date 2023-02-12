@@ -5,9 +5,6 @@ export const Container = styled.div<{ isInModal?: boolean }>`
   padding-top: 25px;
 
   .render-templates {
-    display: flex;
-    flex-direction: row;
-    gap: 13px;
     margin-bottom: 20px;
   }
 `;
