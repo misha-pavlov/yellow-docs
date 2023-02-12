@@ -27,7 +27,7 @@ const TemplatesHeader: FC<TemplatesHeaderProps> = ({
 
   return (
     <Container>
-      <div>{showOnlyTemplates ? 'Recently used' : 'Start a new document'}</div>
+      <div className="title">{showOnlyTemplates ? 'Recently used' : 'Start a new document'}</div>
 
       {!showOnlyTemplates && (
         <div className="right-side">

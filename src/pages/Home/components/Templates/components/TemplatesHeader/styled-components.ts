@@ -7,6 +7,10 @@ export const Container = styled.div`
   justify-content: space-between;
   padding-bottom: 25px;
 
+  .title {
+    font-size: 16px;
+  }
+
   .right-side {
     display: flex;
     align-items: center;
