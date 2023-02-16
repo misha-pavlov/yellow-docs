@@ -1,0 +1,27 @@
+  /* Set dropdown font-families */
+  .ql-snow .ql-picker-options .ql-picker-item[data-label="Mirza"]::before {
+    font-family: "Mirza";
+  }
+  .ql-snow .ql-picker-options .ql-picker-item[data-label="Roboto"]::before {
+    font-family: "Roboto";
+  }
+
+  .ql-snow .ql-picker-options .ql-picker-item[data-label="Rubik"]::before {
+    font-family: "Rubik";
+  }
+  
+  /* Set content font-families */
+  .ql-font-mirza {
+    font-family: "Mirza";
+  }
+  .ql-font-roboto {
+    font-family: "Roboto";
+  }
+
+  .ql-font-rubik {
+    font-family: "Rubik";
+  }
+
+  .ql-container.ql-snow {
+    border: none;
+  }

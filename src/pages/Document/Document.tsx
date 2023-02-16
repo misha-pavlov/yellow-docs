@@ -1,11 +1,18 @@
-import { DocumentHeader } from './components';
+import { Space } from 'antd';
+import { DocumentHeader, DocumentPaper } from './components';
+import { Papers } from './styled-components';
 
 const Document = () => {
   return (
-    <div>
+    <>
       <DocumentHeader />
-      <div>DocumentHeader</div>
-    </div>
+
+      <Papers>
+        <Space direction="vertical" size={16}>
+          <DocumentPaper />
+        </Space>
+      </Papers>
+    </>
   );
 };
 
