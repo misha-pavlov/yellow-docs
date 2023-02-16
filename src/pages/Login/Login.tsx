@@ -1,7 +1,7 @@
-import { FileTextOutlined } from '@ant-design/icons';
-import { Tabs, TabsProps } from 'antd';
+import { Tabs, TabsProps, Image, Space, Spin } from 'antd';
 import { SignIn, SignUp } from './components';
 import { Container, LeftSide, RightSide } from './styled-components';
+import LoginImage from '../../assets/login.svg';
 
 const Login = () => {
   const tabItems: TabsProps['items'] = [
@@ -22,7 +22,14 @@ const Login = () => {
       <LeftSide>
         <p className="yellowDocs">Yellow docs</p>
         <p className="somethingLikeText">Something like google docs</p>
-        <FileTextOutlined className="icon" />
+        <Space direction="vertical" align="center">
+          <Image
+            width={400}
+            preview={false}
+            src={LoginImage}
+            placeholder={<Spin tip="Loading" size="large" />}
+          />
+        </Space>
       </LeftSide>
 
       <RightSide align="middle">

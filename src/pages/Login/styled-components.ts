@@ -16,17 +16,14 @@ export const LeftSide = styled(Row)`
     color: ${colors.yellow500};
     font-weight: 700;
     font-size: 24px;
+    text-align: center;
   }
 
   .somethingLikeText {
     font-size: 18px;
     margin-bottom: 20%;
     color: ${colors.white};
-  }
-
-  .icon {
-    font-size: 400px;
-    color: ${colors.yellow600};
+    text-align: center;
   }
 `;
 
