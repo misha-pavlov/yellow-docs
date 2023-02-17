@@ -1,8 +1,10 @@
 import { createBrowserRouter, defer, RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import 'antd/dist/reset.css';
 import { constants } from './config';
 import { ErrorPage, Home, Login, Root, Document } from './pages';
 import { getUserData } from './pages/Root/helpers';
+import { store } from './store';
 
 const router = createBrowserRouter([
   {
@@ -29,7 +31,11 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
 };
 
 export default App;
