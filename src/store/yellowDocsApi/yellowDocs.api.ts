@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const yellowDocsApi = createApi({
-  reducerPath: 'yelloDocsApi',
+  // reducerPath - name your current file
+  reducerPath: 'yelloDocs.api',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:3030/api/',
   }),
