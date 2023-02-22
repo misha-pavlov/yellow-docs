@@ -8,6 +8,11 @@ type SignUpParams = {
   password: string;
 };
 
+type SignInParams = {
+  email: string;
+  password: string;
+};
+
 export const userApi = createApi({
   // reducerPath - name your current file
   reducerPath: 'user.api',
@@ -27,7 +32,17 @@ export const userApi = createApi({
         },
       }),
     }),
+    signIn: builder.mutation<UserType, SignInParams>({
+      query: ({ email, password }) => ({
+        url: 'signin',
+        method: 'POST',
+        body: {
+          email,
+          password,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useSignUpMutation } = userApi;
+export const { useSignUpMutation, useSignInMutation } = userApi;
