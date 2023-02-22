@@ -2,7 +2,6 @@ import { Tabs, TabsProps, Image, Space, Spin } from 'antd';
 import { SignIn, SignUp } from './components';
 import { Container, LeftSide, RightSide } from './styled-components';
 import LoginImage from '../../assets/login.svg';
-import { useGetAllQuery } from '../../store/yellowDocsApi/yellowDocs.api';
 
 const Login = () => {
   const tabItems: TabsProps['items'] = [
@@ -17,10 +16,6 @@ const Login = () => {
       children: <SignUp />,
     },
   ];
-
-  const { isLoading, data } = useGetAllQuery();
-  console.log('🚀 ~ file: App.tsx:36 ~ App ~ isLoading', isLoading);
-  console.log('🚀 ~ file: App.tsx:36 ~ App ~ data', data);
 
   return (
     <Container>

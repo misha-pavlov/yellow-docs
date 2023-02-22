@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { yellowDocsApi } from './yellowDocsApi/yellowDocs.api';
+import { userApi } from './userApi/user.api';
 
 export const store = configureStore({
   reducer: {
-    [yellowDocsApi.reducerPath]: yellowDocsApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(yellowDocsApi.middleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(userApi.middleware),
 });

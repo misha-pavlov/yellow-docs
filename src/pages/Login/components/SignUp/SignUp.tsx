@@ -1,8 +1,22 @@
 import { Button, Form, Input } from 'antd';
 import { useFormik } from 'formik';
+import { useEffect } from 'react';
+import { constants } from '../../../../config';
+import { useSignUpMutation } from '../../../../store/userApi/user.api';
 import { validate } from '../../helpers';
 
 const SignUp = () => {
+  const [signUp, { data, isLoading }] = useSignUpMutation();
+
+  useEffect(() => {
+    const token = localStorage.getItem(constants.localStorageKeys.token);
+
+    // don't set token if we already have one
+    if (!token && data) {
+      localStorage.setItem(constants.localStorageKeys.token, data.token);
+    }
+  }, [data]);
+
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -11,9 +25,7 @@ const SignUp = () => {
       password: '',
     },
     validate,
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-    },
+    onSubmit: values => signUp(values),
   });
 
   const onFinishFailed = (errorInfo: any) => {
@@ -95,7 +107,7 @@ const SignUp = () => {
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" disabled={isLoading}>
           Submit
         </Button>
       </Form.Item>

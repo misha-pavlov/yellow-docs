@@ -6,4 +6,7 @@ export const constants = {
     // for this param we need to add document id something like this: /document/id
     Document: '/document',
   },
+  localStorageKeys: {
+    token: 'token',
+  },
 };
