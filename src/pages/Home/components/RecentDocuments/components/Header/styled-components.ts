@@ -9,6 +9,8 @@ export const Container = styled.div<{ isSticky: boolean }>`
   z-index: 1;
   display: flex;
   justify-content: center;
+  max-width: 1600px;
+  margin: 0 auto;
   ${({ isSticky }) => isSticky && `box-shadow: 0 10px 19px -21px ${colors.black};`};
 
   .header-wrapper {
