@@ -1,6 +1,7 @@
 import { Button, Form, Input, message } from 'antd';
 import { useFormik } from 'formik';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { validate } from '../../helpers';
 import { useSignInMutation } from '../../../../store/userApi/user.api';
 import { constants } from '../../../../config';
@@ -8,13 +9,16 @@ import { constants } from '../../../../config';
 const SignIn = () => {
   const [signIn, { data, error, isLoading, reset }] = useSignInMutation();
   const [messageApi, contextHolder] = message.useMessage();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (data) {
       // set new token
       localStorage.setItem(constants.localStorageKeys.token, data.token);
+      // redirect to home screen
+      navigate(constants.routes.Home);
     }
-  }, [data]);
+  }, [data, navigate]);
 
   useEffect(() => {
     if (error) {

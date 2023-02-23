@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import 'antd/dist/reset.css';
 import { constants } from './config';
 import { ErrorPage, Home, Login, Root, Document } from './pages';
-import { getUserData } from './pages/Root/helpers';
+import { getToken } from './pages/Root/helpers';
 import { store } from './store';
 
 const router = createBrowserRouter([
@@ -11,7 +11,7 @@ const router = createBrowserRouter([
     path: constants.routes.Root,
     element: <Root />,
     errorElement: <ErrorPage />,
-    loader: () => defer({ userPromise: getUserData() }),
+    loader: () => defer({ tokenPromise: getToken() }),
   },
   {
     path: constants.routes.Home,

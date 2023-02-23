@@ -1,7 +1,9 @@
-export const getUserData = () =>
+import { constants } from '../../config';
+
+export const getToken = () =>
   new Promise(resolve =>
     setTimeout(() => {
-      const user = window.localStorage.getItem('user');
-      resolve(user);
+      const token = localStorage.getItem(constants.localStorageKeys.token);
+      resolve(token);
     }, 3000)
-  ).catch(error => console.error('User error = ', error));
+  ).catch(error => console.error('Token error = ', error));

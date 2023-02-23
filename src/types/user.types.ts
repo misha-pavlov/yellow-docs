@@ -8,10 +8,6 @@ export type UserType = {
   token: string;
 };
 
-export type User = {
-  _id: string;
-};
-
-export type UserLoading = {
-  userPromise: Promise<User>;
+export type TokenLoading = {
+  tokenPromise: Promise<string>;
 };

@@ -1,12 +1,14 @@
 import { Button, Form, Input } from 'antd';
 import { useFormik } from 'formik';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { constants } from '../../../../config';
 import { useSignUpMutation } from '../../../../store/userApi/user.api';
 import { validate } from '../../helpers';
 
 const SignUp = () => {
   const [signUp, { data, isLoading }] = useSignUpMutation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem(constants.localStorageKeys.token);
@@ -14,8 +16,10 @@ const SignUp = () => {
     // don't set token if we already have one
     if (!token && data) {
       localStorage.setItem(constants.localStorageKeys.token, data.token);
+      // redirect to home screen
+      navigate(constants.routes.Home);
     }
-  }, [data]);
+  }, [data, navigate]);
 
   const formik = useFormik({
     initialValues: {
