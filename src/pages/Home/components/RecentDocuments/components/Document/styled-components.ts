@@ -3,7 +3,7 @@ import { colors } from './../../../../../../config/colors';
 
 export const Container = styled.div`
   border: 1px solid ${colors.gray2};
-  width: 250px;
+  width: 270px;
   height: 350px;
   border-radius: 5px;
   cursor: pointer;

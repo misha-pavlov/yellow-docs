@@ -10,7 +10,8 @@ export const Container = styled.div<{ anim: Slide }>`
   animation: 1s
     ${({ anim }) => (anim === Slide.SlideInUp ? slideInUpAnimation : slideOutDownAnimation)};
   background-color: ${colors.white2};
-    width: 100%;
+  width: 100%;
+  height: 100%;
 
   .wrapper {
     margin: 0 auto;
@@ -21,6 +22,11 @@ export const Container = styled.div<{ anim: Slide }>`
 
     .main-content {
       width: 75%;
+
+      .loader {
+        width: 250px;
+        height: 350px;
+      }
     }
   }
 `;

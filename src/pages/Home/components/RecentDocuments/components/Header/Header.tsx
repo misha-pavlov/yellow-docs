@@ -1,16 +1,16 @@
-import {
-  CaretDownOutlined,
-  DatabaseOutlined,
-  FolderOutlined,
-  SortAscendingOutlined,
-} from '@ant-design/icons';
+import { CaretDownOutlined, DatabaseOutlined, SortAscendingOutlined } from '@ant-design/icons';
 import { Button, Dropdown, MenuProps, Space, Tooltip } from 'antd';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { OwnedEnum } from '../../../../../../types/document.types';
 import { Container } from './styled-components';
 
-const Header = () => {
+type HeaderProps = {
+  owned: OwnedEnum;
+  changeOwned: (newOwned: OwnedEnum) => void;
+};
+
+const Header: FC<HeaderProps> = ({ owned, changeOwned }) => {
   const [isShowDropdown, setIsShowDropdown] = useState(false);
-  const [currentOwned, setCurrentOwned] = useState(0);
   const [isSticky, setIsSticky] = useState(false);
 
   const stickyRef = useRef(null);
@@ -56,30 +56,33 @@ const Header = () => {
     setIsShowDropdown(prevProps => !prevProps);
   };
 
-  const selectCurrentOwned = (key: number) => {
+  const selectOwned = (key: OwnedEnum) => {
     toggleDropdown();
-    if (key !== currentOwned) {
-      setCurrentOwned(key);
+    if (key !== owned) {
+      changeOwned(key);
     }
   };
 
-  const owned: MenuProps['items'] = [
+  const ownedDropdown: MenuProps['items'] = [
     {
       label: <span>Owned by anyone</span>,
-      onClick: () => selectCurrentOwned(0),
-      key: '0',
+      onClick: () => selectOwned(OwnedEnum.BY_ANYONE),
+      key: OwnedEnum.BY_ANYONE,
     },
     {
       label: <span>Owned by me</span>,
-      onClick: () => selectCurrentOwned(1),
-      key: '1',
+      onClick: () => selectOwned(OwnedEnum.BY_ME),
+      key: OwnedEnum.BY_ME,
     },
     {
       label: <span>Not owned by me</span>,
-      onClick: () => selectCurrentOwned(2),
-      key: '2',
+      onClick: () => selectOwned(OwnedEnum.NOT_BY_ME),
+      key: OwnedEnum.NOT_BY_ME,
     },
   ];
+
+  // as type for correnct types
+  const currentOwned = ownedDropdown.find((ownedItem) => ownedItem?.key === owned && ownedDropdown) as { label: string }
 
   return (
     <Container ref={stickyRef} isSticky={isSticky}>
@@ -88,9 +91,9 @@ const Header = () => {
         <Space size={85} align="center" className="left">
           <Dropdown
             menu={{
-              items: owned,
+              items: ownedDropdown,
               selectable: true,
-              defaultSelectedKeys: [currentOwned.toString()],
+              defaultSelectedKeys: [owned],
             }}
             trigger={['click']}
             placement="bottom"
@@ -102,7 +105,7 @@ const Header = () => {
               onClick={toggleDropdown}
               {...(isShowDropdown && { className: 'active' })}
             >
-              Owned by anyone
+              {currentOwned.label}
             </Button>
           </Dropdown>
 
@@ -113,10 +116,6 @@ const Header = () => {
 
             <Tooltip placement="bottom" title="Sort options">
               <Button type="text" icon={<SortAscendingOutlined />} />
-            </Tooltip>
-
-            <Tooltip placement="bottom" title="Open file picker">
-              <Button type="text" icon={<FolderOutlined />} />
             </Tooltip>
           </Space>
         </Space>

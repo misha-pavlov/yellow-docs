@@ -27,7 +27,7 @@ const Templates: FC<TemplatesProps> = ({
         toggleShowOnlyTemplates={toggleShowOnlyTemplates}
       />
 
-      <Space size={14} className="render-templates">
+      <Space size={16} className="render-templates">
         <TemplateCard
           isBlankCard
           title={BLANK}

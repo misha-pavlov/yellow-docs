@@ -9,6 +9,7 @@ import {
 import { Button, Dropdown, MenuProps } from 'antd';
 import moment from 'moment';
 import { memo, useState } from 'react';
+import { DocumentType } from '../../../../../../types/document.types';
 import { Container } from './styled-components';
 
 const items: MenuProps['items'] = [
@@ -31,7 +32,7 @@ const items: MenuProps['items'] = [
   },
 ];
 
-const Document = () => {
+const Document = ({ doc }: { doc: DocumentType }) => {
   const [isShowDropdown, setIsShowDropdown] = useState(false);
 
   const toggleDropdown = () => {
@@ -45,19 +46,14 @@ const Document = () => {
       <div className="info">
         <div className="title">
           {/* if title.length >= 30 use replace if not just show a title */}
-          {'Titledjdlkdnsdvkjdnvkl,dfvkjfd vkldfv kdf vkds ckjd vjkdfjv jdfjjvdfk'.replace(
-            /^(.{11}[^\s]*).*/,
-            '$1...'
-          )}
+          {doc.title.replace(/^(.{11}[^\s]*).*/, '$1...')}
         </div>
 
         <div className="sub-title">
           <div className="left">
             <Button type="primary" size="small" icon={<AlignLeftOutlined />} />
             {/* if the doc is shared */}
-            <div className="shared">
-              <TeamOutlined />
-            </div>
+            <div className="shared">{doc.visibleFor.length > 1 && <TeamOutlined />}</div>
 
             <div className="date">{moment().format('MMMM Do, YYYY')}</div>
           </div>

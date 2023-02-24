@@ -1,5 +1,7 @@
-import { Col, Row } from 'antd';
+import { Col, Row, Skeleton } from 'antd';
 import { FC, useEffect, useMemo, useState } from 'react';
+import { useGetRecentDocumentsQuery } from '../../../../store/documentApi/document.api';
+import { DocumentType, OwnedEnum, SortEnum } from '../../../../types/document.types';
 import { Header, Document } from './components';
 import { Container } from './styled-components';
 import { Slide } from './types';
@@ -11,6 +13,16 @@ type RecentDocumentsProps = {
 const RecentDocuments: FC<RecentDocumentsProps> = ({ showOnlyTemplates }) => {
   const [anim, setAnim] = useState(Slide.SlideInUp);
   const [showComponent, setShowComponent] = useState(true);
+  const [owned, setOwned] = useState(OwnedEnum.BY_ANYONE);
+
+  const changeOwned = (newOwend: OwnedEnum) => {
+    setOwned(newOwend);
+  };
+
+  const { data, isLoading } = useGetRecentDocumentsQuery({
+    owned,
+    sort: SortEnum.LAST_OPENED_BY_ME,
+  });
 
   // handle show only template mode and animation for hiding and showing recent documents
   useEffect(() => {
@@ -24,22 +36,25 @@ const RecentDocuments: FC<RecentDocumentsProps> = ({ showOnlyTemplates }) => {
   }, [anim, showOnlyTemplates]);
 
   const renderCols = useMemo(() => {
-    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(() => (
-      <Col span={6}>
-        <Document />
+    return data?.map((doc: DocumentType) => (
+      <Col span={6} key={doc._id}>
+        <Document doc={doc} />
       </Col>
     ));
-  }, []);
+  }, [data]);
 
   return showComponent ? (
-    // TODO: add prop if recent documents length 0 set height 100%
     <Container anim={anim}>
       <div>
-        <Header />
+        <Header owned={owned} changeOwned={changeOwned} />
 
         <div className="wrapper">
           <div className="main-content">
-            <Row gutter={[40, 40]}>{renderCols}</Row>
+            {isLoading ? (
+              <Skeleton.Button active size="large" className="loader" />
+            ) : (
+              <Row gutter={[40, 40]}>{renderCols}</Row>
+            )}
           </div>
         </div>
       </div>

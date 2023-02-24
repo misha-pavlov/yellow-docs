@@ -6,7 +6,6 @@ import './update-quill-styles.css';
 
 const DocumentPaper = () => {
   const [value, setValue] = useState('');
-  console.log('🚀 ~ file: DocumentPaper.tsx:9 ~ DocumentPaper ~ value', value);
 
   const onChange = useCallback((html: string) => {
     setValue(html);
