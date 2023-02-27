@@ -14,14 +14,19 @@ const RecentDocuments: FC<RecentDocumentsProps> = ({ showOnlyTemplates }) => {
   const [anim, setAnim] = useState(Slide.SlideInUp);
   const [showComponent, setShowComponent] = useState(true);
   const [owned, setOwned] = useState(OwnedEnum.BY_ANYONE);
+  const [sort, setSort] = useState(SortEnum.LAST_OPENED_BY_ME);
 
   const changeOwned = (newOwend: OwnedEnum) => {
     setOwned(newOwend);
   };
 
+  const changeSort = (newSort: SortEnum) => {
+    setSort(newSort);
+  };
+
   const { data, isLoading } = useGetRecentDocumentsQuery({
     owned,
-    sort: SortEnum.LAST_OPENED_BY_ME,
+    sort,
   });
 
   // handle show only template mode and animation for hiding and showing recent documents
@@ -38,15 +43,15 @@ const RecentDocuments: FC<RecentDocumentsProps> = ({ showOnlyTemplates }) => {
   const renderCols = useMemo(() => {
     return data?.map((doc: DocumentType) => (
       <Col span={6} key={doc._id}>
-        <Document doc={doc} />
+        <Document doc={doc} sort={sort} />
       </Col>
     ));
-  }, [data]);
+  }, [data, sort]);
 
   return showComponent ? (
     <Container anim={anim}>
       <div>
-        <Header owned={owned} changeOwned={changeOwned} />
+        <Header owned={owned} changeOwned={changeOwned} sort={sort} changeSort={changeSort} />
 
         <div className="wrapper">
           <div className="main-content">

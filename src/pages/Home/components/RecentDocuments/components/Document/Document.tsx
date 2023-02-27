@@ -9,7 +9,7 @@ import {
 import { Button, Dropdown, MenuProps } from 'antd';
 import moment from 'moment';
 import { memo, useState } from 'react';
-import { DocumentType } from '../../../../../../types/document.types';
+import { DocumentType, SortEnum } from '../../../../../../types/document.types';
 import { Container } from './styled-components';
 
 const items: MenuProps['items'] = [
@@ -32,11 +32,19 @@ const items: MenuProps['items'] = [
   },
 ];
 
-const Document = ({ doc }: { doc: DocumentType }) => {
+const Document = ({ doc, sort }: { doc: DocumentType; sort: SortEnum }) => {
   const [isShowDropdown, setIsShowDropdown] = useState(false);
 
   const toggleDropdown = () => {
     setIsShowDropdown(prevProps => !prevProps);
+  };
+
+  const getDate = () => {
+    if (sort === SortEnum.LAST_OPENED_BY_ME) {
+      return doc.openHistory.find(history => history.userId === '1')?.date;
+    }
+
+    return doc.changedAt;
   };
 
   return (
@@ -52,10 +60,8 @@ const Document = ({ doc }: { doc: DocumentType }) => {
         <div className="sub-title">
           <div className="left">
             <Button type="primary" size="small" icon={<AlignLeftOutlined />} />
-            {/* if the doc is shared */}
             <div className="shared">{doc.visibleFor.length > 1 && <TeamOutlined />}</div>
-
-            <div className="date">{moment().format('MMMM Do, YYYY')}</div>
+            <div className="date">{getDate() && moment(getDate()).format('MMMM Do, YYYY')}</div>
           </div>
 
           <div>

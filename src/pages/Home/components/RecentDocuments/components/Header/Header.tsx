@@ -1,16 +1,19 @@
 import { CaretDownOutlined, DatabaseOutlined, SortAscendingOutlined } from '@ant-design/icons';
 import { Button, Dropdown, MenuProps, Space, Tooltip } from 'antd';
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { OwnedEnum } from '../../../../../../types/document.types';
+import { OwnedEnum, SortEnum } from '../../../../../../types/document.types';
 import { Container } from './styled-components';
 
 type HeaderProps = {
+  sort: SortEnum;
   owned: OwnedEnum;
+  changeSort: (newSort: SortEnum) => void;
   changeOwned: (newOwned: OwnedEnum) => void;
 };
 
-const Header: FC<HeaderProps> = ({ owned, changeOwned }) => {
-  const [isShowDropdown, setIsShowDropdown] = useState(false);
+const Header: FC<HeaderProps> = ({ owned, changeOwned, sort, changeSort }) => {
+  const [isShowOpenedDropdown, setIsShowOpenedDropdown] = useState(false);
+  const [isShowSortDropdown, setIsShowSortDropdown] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
 
   const stickyRef = useRef(null);
@@ -52,14 +55,25 @@ const Header: FC<HeaderProps> = ({ owned, changeOwned }) => {
     return window.removeEventListener('scroll', () => handleScroll(true));
   }, [handleScroll]);
 
-  const toggleDropdown = () => {
-    setIsShowDropdown(prevProps => !prevProps);
+  const toggleOpenedDropdown = () => {
+    setIsShowOpenedDropdown(prevProps => !prevProps);
+  };
+
+  const toggleSortDropdown = () => {
+    setIsShowSortDropdown(prevProps => !prevProps);
   };
 
   const selectOwned = (key: OwnedEnum) => {
-    toggleDropdown();
+    toggleOpenedDropdown();
     if (key !== owned) {
       changeOwned(key);
+    }
+  };
+
+  const selectSort = (key: SortEnum) => {
+    toggleSortDropdown();
+    if (key !== sort) {
+      changeSort(key);
     }
   };
 
@@ -81,8 +95,33 @@ const Header: FC<HeaderProps> = ({ owned, changeOwned }) => {
     },
   ];
 
+  const sortDropdown: MenuProps['items'] = [
+    {
+      label: <span>Last opened by me</span>,
+      onClick: () => selectSort(SortEnum.LAST_OPENED_BY_ME),
+      key: SortEnum.LAST_OPENED_BY_ME,
+    },
+    {
+      label: <span>Last modified by me</span>,
+      onClick: () => selectSort(SortEnum.LAST_MODIFIED_BY_ME),
+      key: SortEnum.LAST_MODIFIED_BY_ME,
+    },
+    {
+      label: <span>Last modified</span>,
+      onClick: () => selectSort(SortEnum.LAST_MODIFIED),
+      key: SortEnum.LAST_MODIFIED,
+    },
+    {
+      label: <span>Title</span>,
+      onClick: () => selectSort(SortEnum.TITLE),
+      key: SortEnum.TITLE,
+    },
+  ];
+
   // as type for correnct types
-  const currentOwned = ownedDropdown.find((ownedItem) => ownedItem?.key === owned && ownedDropdown) as { label: string }
+  const currentOwned = ownedDropdown.find(
+    ownedItem => ownedItem?.key === owned && ownedDropdown
+  ) as { label: string };
 
   return (
     <Container ref={stickyRef} isSticky={isSticky}>
@@ -97,13 +136,13 @@ const Header: FC<HeaderProps> = ({ owned, changeOwned }) => {
             }}
             trigger={['click']}
             placement="bottom"
-            open={isShowDropdown}
+            open={isShowOpenedDropdown}
           >
             <Button
               type="text"
               icon={<CaretDownOutlined />}
-              onClick={toggleDropdown}
-              {...(isShowDropdown && { className: 'active' })}
+              onClick={toggleOpenedDropdown}
+              {...(isShowOpenedDropdown && { className: 'active' })}
             >
               {currentOwned.label}
             </Button>
@@ -114,9 +153,25 @@ const Header: FC<HeaderProps> = ({ owned, changeOwned }) => {
               <Button type="text" icon={<DatabaseOutlined />} />
             </Tooltip>
 
-            <Tooltip placement="bottom" title="Sort options">
-              <Button type="text" icon={<SortAscendingOutlined />} />
-            </Tooltip>
+            <Dropdown
+              menu={{ items: sortDropdown, selectable: true, defaultSelectedKeys: [sort] }}
+              trigger={['click']}
+              placement="bottom"
+              open={isShowSortDropdown}
+            >
+              <Tooltip
+                placement="bottom"
+                title="Sort options"
+                {...(isShowSortDropdown && { open: false })}
+              >
+                <Button
+                  type="text"
+                  onClick={toggleSortDropdown}
+                  icon={<SortAscendingOutlined />}
+                  {...(isShowSortDropdown && { className: 'active' })}
+                />
+              </Tooltip>
+            </Dropdown>
           </Space>
         </Space>
       </Space>
