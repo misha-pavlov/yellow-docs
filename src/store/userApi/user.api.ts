@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { constants } from '../../config';
 import { UserType } from '../../types/user.types';
 
 type SignUpParams = {
@@ -18,6 +19,13 @@ export const userApi = createApi({
   reducerPath: 'user.api',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:3030/user',
+    prepareHeaders: headers => {
+      const token = localStorage.getItem(constants.localStorageKeys.token);
+
+      if (token) {
+        headers.set('x-access-token', token);
+      }
+    },
   }),
   endpoints: builder => ({
     signUp: builder.mutation<UserType, SignUpParams>({
@@ -42,7 +50,14 @@ export const userApi = createApi({
         },
       }),
     }),
+
+    currentUser: builder.query<UserType, void>({
+      query: () => ({
+        url: 'currentUser',
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useSignUpMutation, useSignInMutation } = userApi;
+export const { useSignUpMutation, useSignInMutation, useCurrentUserQuery } = userApi;

@@ -9,6 +9,7 @@ import {
 import { Button, Dropdown, MenuProps } from 'antd';
 import moment from 'moment';
 import { memo, useState } from 'react';
+import { useCurrentUserQuery } from '../../../../../../store/userApi/user.api';
 import { DocumentType, SortEnum } from '../../../../../../types/document.types';
 import { Container } from './styled-components';
 
@@ -34,6 +35,7 @@ const items: MenuProps['items'] = [
 
 const Document = ({ doc, sort }: { doc: DocumentType; sort: SortEnum }) => {
   const [isShowDropdown, setIsShowDropdown] = useState(false);
+  const { data: currentUser } = useCurrentUserQuery();
 
   const toggleDropdown = () => {
     setIsShowDropdown(prevProps => !prevProps);
@@ -41,7 +43,7 @@ const Document = ({ doc, sort }: { doc: DocumentType; sort: SortEnum }) => {
 
   const getDate = () => {
     if (sort === SortEnum.LAST_OPENED_BY_ME) {
-      return doc.openHistory.find(history => history.userId === '1')?.date;
+      return doc.openHistory.find(history => history.userId === currentUser?._id)?.date;
     }
 
     return doc.changedAt;
