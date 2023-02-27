@@ -7,11 +7,12 @@ import { Container } from './styled-components';
 type HeaderProps = {
   sort: SortEnum;
   owned: OwnedEnum;
+  toggleIsTable: () => void;
   changeSort: (newSort: SortEnum) => void;
   changeOwned: (newOwned: OwnedEnum) => void;
 };
 
-const Header: FC<HeaderProps> = ({ owned, changeOwned, sort, changeSort }) => {
+const Header: FC<HeaderProps> = ({ owned, changeOwned, sort, changeSort, toggleIsTable }) => {
   const [isShowOpenedDropdown, setIsShowOpenedDropdown] = useState(false);
   const [isShowSortDropdown, setIsShowSortDropdown] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
@@ -150,7 +151,7 @@ const Header: FC<HeaderProps> = ({ owned, changeOwned, sort, changeSort }) => {
 
           <Space align="center" size={10}>
             <Tooltip placement="bottom" title="List view">
-              <Button type="text" icon={<DatabaseOutlined />} />
+              <Button type="text" onClick={toggleIsTable} icon={<DatabaseOutlined />} />
             </Tooltip>
 
             <Dropdown

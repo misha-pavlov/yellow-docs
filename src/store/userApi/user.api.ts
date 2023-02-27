@@ -14,6 +14,10 @@ type SignInParams = {
   password: string;
 };
 
+type UserByIdParams = {
+  userId: string;
+};
+
 export const userApi = createApi({
   // reducerPath - name your current file
   reducerPath: 'user.api',
@@ -57,7 +61,22 @@ export const userApi = createApi({
         method: 'GET',
       }),
     }),
+
+    userById: builder.query<UserType, UserByIdParams>({
+      query: ({ userId }) => ({
+        url: 'userById',
+        method: 'GET',
+        params: {
+          userId,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useSignUpMutation, useSignInMutation, useCurrentUserQuery } = userApi;
+export const {
+  useSignUpMutation,
+  useSignInMutation,
+  useCurrentUserQuery,
+  useUserByIdQuery,
+} = userApi;

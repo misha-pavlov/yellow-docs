@@ -1,37 +1,12 @@
-import {
-  AlignLeftOutlined,
-  DeleteOutlined,
-  FontSizeOutlined,
-  MoreOutlined,
-  SelectOutlined,
-  TeamOutlined,
-} from '@ant-design/icons';
-import { Button, Dropdown, MenuProps } from 'antd';
+import { AlignLeftOutlined, TeamOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import moment from 'moment';
 import { memo, useState } from 'react';
+import { MoreButton } from '..';
 import { useCurrentUserQuery } from '../../../../../../store/userApi/user.api';
 import { DocumentType, SortEnum } from '../../../../../../types/document.types';
+import { getDate } from '../../helpers';
 import { Container } from './styled-components';
-
-const items: MenuProps['items'] = [
-  {
-    label: <span>Rename</span>,
-    icon: <FontSizeOutlined />,
-    // disabled true if user is not an owner in this doc
-    disabled: true,
-    key: '0',
-  },
-  {
-    label: <span>Remove</span>,
-    icon: <DeleteOutlined />,
-    key: '1',
-  },
-  {
-    label: <span>Open in new tab</span>,
-    icon: <SelectOutlined />,
-    key: '2',
-  },
-];
 
 const Document = ({ doc, sort }: { doc: DocumentType; sort: SortEnum }) => {
   const [isShowDropdown, setIsShowDropdown] = useState(false);
@@ -41,13 +16,7 @@ const Document = ({ doc, sort }: { doc: DocumentType; sort: SortEnum }) => {
     setIsShowDropdown(prevProps => !prevProps);
   };
 
-  const getDate = () => {
-    if (sort === SortEnum.LAST_OPENED_BY_ME) {
-      return doc.openHistory.find(history => history.userId === currentUser?._id)?.date;
-    }
-
-    return doc.changedAt;
-  };
+  const date = getDate(sort, doc.openHistory, doc.changedAt, currentUser?._id);
 
   return (
     <Container>
@@ -63,13 +32,11 @@ const Document = ({ doc, sort }: { doc: DocumentType; sort: SortEnum }) => {
           <div className="left">
             <Button type="primary" size="small" icon={<AlignLeftOutlined />} />
             <div className="shared">{doc.visibleFor.length > 1 && <TeamOutlined />}</div>
-            <div className="date">{getDate() && moment(getDate()).format('MMMM Do, YYYY')}</div>
+            <div className="date">{date && moment(date).format('MMMM Do, YYYY')}</div>
           </div>
 
           <div>
-            <Dropdown menu={{ items }} trigger={['click']} placement="top" open={isShowDropdown}>
-              <Button type="text" size="small" icon={<MoreOutlined />} onClick={toggleDropdown} />
-            </Dropdown>
+            <MoreButton isShowDropdown={isShowDropdown} toggleDropdown={toggleDropdown} />
           </div>
         </div>
       </div>
