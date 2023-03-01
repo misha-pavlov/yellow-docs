@@ -8,6 +8,19 @@ type GetRecentDocumentsParams = {
   sort: SortEnum;
 };
 
+type EditDocumentParams = {
+  documentId: string;
+  newTitle?: string;
+  newVisibleForUserId?: string;
+  newFavouriteUserId?: string;
+  newContent?: string;
+  updateOpenHistory?: boolean;
+};
+
+type DeleteDocumentParams = {
+  documentId: string;
+};
+
 export const documentApi = createApi({
   // reducerPath - name your current file
   reducerPath: 'document.api',
@@ -33,7 +46,41 @@ export const documentApi = createApi({
         },
       }),
     }),
+    editDocument: builder.mutation<DocumentType, EditDocumentParams>({
+      query: ({
+        documentId,
+        newTitle,
+        newContent,
+        updateOpenHistory,
+        newFavouriteUserId,
+        newVisibleForUserId,
+      }) => ({
+        url: 'edit',
+        method: 'PATCH',
+        body: {
+          documentId,
+          newTitle,
+          newContent,
+          updateOpenHistory,
+          newFavouriteUserId,
+          newVisibleForUserId,
+        },
+      }),
+    }),
+    deleteDocument: builder.mutation<DocumentType, DeleteDocumentParams>({
+      query: ({ documentId }) => ({
+        url: 'delete',
+        method: 'DELETE',
+        body: {
+          documentId,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetRecentDocumentsQuery } = documentApi;
+export const {
+  useEditDocumentMutation,
+  useDeleteDocumentMutation,
+  useGetRecentDocumentsQuery,
+} = documentApi;

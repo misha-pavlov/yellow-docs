@@ -1,14 +1,20 @@
 import { AlignLeftOutlined, TeamOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import moment from 'moment';
-import { memo, useState } from 'react';
+import { FC, memo, useState } from 'react';
 import { MoreButton } from '..';
 import { useCurrentUserQuery } from '../../../../../../store/userApi/user.api';
 import { DocumentType, SortEnum } from '../../../../../../types/document.types';
 import { getDate } from '../../helpers';
 import { Container } from './styled-components';
 
-const Document = ({ doc, sort }: { doc: DocumentType; sort: SortEnum }) => {
+type DocumentProps = {
+  sort: SortEnum;
+  doc: DocumentType;
+  refetch: () => void;
+};
+
+const Document: FC<DocumentProps> = ({ doc, sort, refetch }) => {
   const [isShowDropdown, setIsShowDropdown] = useState(false);
   const { data: currentUser } = useCurrentUserQuery();
 
@@ -36,7 +42,14 @@ const Document = ({ doc, sort }: { doc: DocumentType; sort: SortEnum }) => {
           </div>
 
           <div>
-            <MoreButton isShowDropdown={isShowDropdown} toggleDropdown={toggleDropdown} />
+            <MoreButton
+              refetch={refetch}
+              docTitle={doc.title}
+              documentId={doc._id}
+              isShowDropdown={isShowDropdown}
+              toggleDropdown={toggleDropdown}
+              isDisabled={currentUser?._id !== doc.owner}
+            />
           </div>
         </div>
       </div>

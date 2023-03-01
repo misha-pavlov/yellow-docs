@@ -47,10 +47,13 @@ const RecentDocuments: FC<RecentDocumentsProps> = ({ showOnlyTemplates }) => {
     [isShowMoreMenu]
   );
 
-  const { data, isLoading } = useGetRecentDocumentsQuery({
-    owned,
-    sort,
-  });
+  const { data, isLoading, refetch } = useGetRecentDocumentsQuery(
+    {
+      owned,
+      sort,
+    },
+    { pollingInterval: 10 }
+  );
 
   // handle show only template mode and animation for hiding and showing recent documents
   useEffect(() => {
@@ -66,11 +69,12 @@ const RecentDocuments: FC<RecentDocumentsProps> = ({ showOnlyTemplates }) => {
   const renderCols = useMemo(() => {
     return data?.map((doc: DocumentType) => (
       <Col span={6} key={doc._id}>
-        <Document doc={doc} sort={sort} />
+        <Document doc={doc} sort={sort} refetch={refetch} />
       </Col>
     ));
-  }, [data, sort]);
+  }, [data, refetch, sort]);
 
+  // table columns
   const columns = useMemo(
     () => [
       {
@@ -116,6 +120,10 @@ const RecentDocuments: FC<RecentDocumentsProps> = ({ showOnlyTemplates }) => {
         date: date ? moment(date).format('MMMM Do, YYYY') : '',
         more: (
           <MoreButton
+            refetch={refetch}
+            docTitle={doc.title}
+            documentId={doc._id}
+            isDisabled={currentUser?._id !== doc.owner}
             isShowDropdown={isShowMoreMenu === doc._id}
             toggleDropdown={() => toggleIsShowMoreMenu(doc._id)}
           />
@@ -132,6 +140,7 @@ const RecentDocuments: FC<RecentDocumentsProps> = ({ showOnlyTemplates }) => {
     data,
     isShowMoreMenu,
     isTable,
+    refetch,
     renderCols,
     sort,
     toggleIsShowMoreMenu,
@@ -141,10 +150,11 @@ const RecentDocuments: FC<RecentDocumentsProps> = ({ showOnlyTemplates }) => {
     <Container anim={anim}>
       <div>
         <Header
-          owned={owned}
-          changeOwned={changeOwned}
           sort={sort}
+          owned={owned}
+          isTable={isTable}
           changeSort={changeSort}
+          changeOwned={changeOwned}
           toggleIsTable={toggleIsTable}
         />
 
