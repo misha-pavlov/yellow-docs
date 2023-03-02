@@ -1,5 +1,5 @@
 import { Skeleton } from 'antd';
-import { useCurrentUserQuery, useUserByIdQuery } from '../../../../../../store/userApi/user.api';
+import { useCurrentUserQuery, useUserByIdQuery } from '../../store/userApi/user.api';
 
 const Owner = ({ ownerId }: { ownerId: string }) => {
   const { data: currentUser, isLoading: isCurrentLoading } = useCurrentUserQuery();
