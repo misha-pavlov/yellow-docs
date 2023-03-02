@@ -2,7 +2,9 @@ import { AlignLeftOutlined, TeamOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import moment from 'moment';
 import { FC, memo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MoreButton } from '..';
+import { constants } from '../../../../../../config';
 import { useCurrentUserQuery } from '../../../../../../store/userApi/user.api';
 import { DocumentType, SortEnum } from '../../../../../../types/document.types';
 import { DocumentPaper } from '../../../../../Document/components';
@@ -18,6 +20,7 @@ type DocumentProps = {
 const Document: FC<DocumentProps> = ({ doc, sort, refetch }) => {
   const [isShowDropdown, setIsShowDropdown] = useState(false);
   const { data: currentUser } = useCurrentUserQuery();
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setIsShowDropdown(prevProps => !prevProps);
@@ -26,7 +29,7 @@ const Document: FC<DocumentProps> = ({ doc, sort, refetch }) => {
   const date = getDate(sort, doc.openHistory, doc.changedAt, currentUser?._id);
 
   return (
-    <Container>
+    <Container onClick={() => navigate(`${constants.routes.Document}/${doc._id}`)}>
       <div className="content">
         <DocumentPaper content={doc.content} isReadOnly width={1} height={275} />
       </div>

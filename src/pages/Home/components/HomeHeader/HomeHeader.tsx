@@ -8,7 +8,9 @@ import {
 import { Button, Input, Space } from 'antd';
 import moment from 'moment';
 import { ChangeEvent, FC, useCallback, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Owner, UserAvatar } from '../../../../components';
+import { constants } from '../../../../config';
 import { useDebounce } from '../../../../hooks';
 import { useGetRecentDocumentsQuery } from '../../../../store/documentApi/document.api';
 import { DocumentType, OwnedEnum, SortEnum } from '../../../../types/document.types';
@@ -24,6 +26,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({ showOnlyTemplates, toggleShowOnlyTemp
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce<string>(searchTerm, 500);
+  const navigate = useNavigate();
 
   const toggleIsCollapsed = useCallback(() => {
     setIsCollapsed(prevProps => !prevProps);
@@ -56,7 +59,12 @@ const HomeHeader: FC<HomeHeaderProps> = ({ showOnlyTemplates, toggleShowOnlyTemp
     return (
       <Space direction="vertical" className="searchResults">
         {data.map((doc: DocumentType) => (
-          <Space className="searchItem" align="center">
+          <Space
+            className="searchItem"
+            align="center"
+            key={doc._id}
+            onClick={() => navigate(`${constants.routes.Document}/${doc._id}`)}
+          >
             <Space size={20} align="center">
               <Button type="primary" size="small" icon={<AlignLeftOutlined />} />
               <Space direction="vertical">
@@ -72,7 +80,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({ showOnlyTemplates, toggleShowOnlyTemp
         ))}
       </Space>
     );
-  }, [data, debouncedSearchTerm.length, isFetching, isLoading]);
+  }, [data, debouncedSearchTerm.length, isFetching, isLoading, navigate]);
 
   return showOnlyTemplates ? (
     <Container>
