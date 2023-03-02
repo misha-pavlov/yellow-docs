@@ -9,7 +9,7 @@ const Document = () => {
 
       <Papers>
         <Space direction="vertical" size={16}>
-          <DocumentPaper />
+          <DocumentPaper content='' />
         </Space>
       </Papers>
     </>

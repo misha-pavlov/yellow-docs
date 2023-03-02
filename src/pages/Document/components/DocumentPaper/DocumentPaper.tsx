@@ -1,11 +1,19 @@
-import { useCallback, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import ReactQuill from 'react-quill';
 import { Container } from './styled-components';
+// css
 import 'react-quill/dist/quill.snow.css';
 import './update-quill-styles.css';
 
-const DocumentPaper = () => {
-  const [value, setValue] = useState('');
+type DocumentPaperProps = {
+  content: string;
+  width?: number;
+  height?: number;
+  isReadOnly?: boolean;
+};
+
+const DocumentPaper: FC<DocumentPaperProps> = ({ content, isReadOnly, width, height }) => {
+  const [value, setValue] = useState(content);
 
   const onChange = useCallback((html: string) => {
     setValue(html);
@@ -50,14 +58,16 @@ const DocumentPaper = () => {
   Quill.register(Font, true);
 
   return (
-    <Container>
+    <Container width={width} height={height}>
+      {isReadOnly && <div id="toolbar"></div>}
       <ReactQuill
         theme="snow"
         value={value}
         modules={modules}
         formats={formats}
         onChange={onChange}
-        placeholder="Waiting for your text"
+        readOnly={isReadOnly}
+        placeholder={isReadOnly ? 'Currently nothing' : 'Waiting for your text'}
       />
     </Container>
   );

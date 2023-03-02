@@ -5,6 +5,7 @@ import { FC, memo, useState } from 'react';
 import { MoreButton } from '..';
 import { useCurrentUserQuery } from '../../../../../../store/userApi/user.api';
 import { DocumentType, SortEnum } from '../../../../../../types/document.types';
+import { DocumentPaper } from '../../../../../Document/components';
 import { getDate } from '../../helpers';
 import { Container } from './styled-components';
 
@@ -26,7 +27,9 @@ const Document: FC<DocumentProps> = ({ doc, sort, refetch }) => {
 
   return (
     <Container>
-      <div className="content">content</div>
+      <div className="content">
+        <DocumentPaper content={doc.content} isReadOnly width={1} height={275} />
+      </div>
 
       <div className="info">
         <div className="title">
