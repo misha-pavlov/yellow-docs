@@ -11,6 +11,7 @@ export const Container = styled.div<{ anim: Bounce }>`
   z-index: 6;
   background-color: transparent;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100vh;
   display: flex;
