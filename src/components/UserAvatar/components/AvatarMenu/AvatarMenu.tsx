@@ -3,14 +3,16 @@ import { Avatar, Button } from 'antd';
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { constants } from '../../../../config';
+import { UserType } from '../../../../types/user.types';
 import { Container } from './styled-components';
 import { Bounce } from './types';
 
 type AvatarMenuProps = {
+  currentUser: UserType;
   onPressOutside: VoidFunction;
 };
 
-const AvatarMenu: FC<AvatarMenuProps> = ({ onPressOutside }) => {
+const AvatarMenu: FC<AvatarMenuProps> = ({ currentUser, onPressOutside }) => {
   const [anim, setAnim] = useState(Bounce.BounceInRight);
   const navigate = useNavigate();
 
@@ -29,15 +31,13 @@ const AvatarMenu: FC<AvatarMenuProps> = ({ onPressOutside }) => {
     <Container onClick={onClick} anim={anim}>
       <div className="menu" onClick={e => e.stopPropagation()}>
         <div className="icon-row">
-          <Avatar
-            size={55}
-            src="https://hv-hive-drive.s3.amazonaws.com/7driFnaZjDQZndHqs/3ZmvgsLsoHdYEXQMZ/photo_2021-03-01 11.31.59.jpeg"
-            icon={<UserOutlined />}
-          />
+          <Avatar size={55} src={currentUser.image} icon={<UserOutlined />} />
 
           <div>
-            <div className="username">UserName</div>
-            <div className="email">UserEmail</div>
+            <div className="username">
+              {currentUser.firstName} {currentUser.lastName}
+            </div>
+            <div className="email">{currentUser.email}</div>
           </div>
         </div>
 

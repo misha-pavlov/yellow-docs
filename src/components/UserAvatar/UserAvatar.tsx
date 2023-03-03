@@ -1,32 +1,35 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Tooltip } from 'antd';
 import { FC, useCallback, useMemo, useState } from 'react';
+import { useCurrentUserQuery } from '../../store/userApi/user.api';
 import { AvatarMenu } from './components';
 
 type UserAvatarProps = {
-  tooltipTitle: string;
   className: string;
 };
 
-const UserAvatar: FC<UserAvatarProps> = ({ tooltipTitle, className }) => {
+const UserAvatar: FC<UserAvatarProps> = ({ className }) => {
   const [showAvatarMenu, setShowAvatarMenu] = useState(false);
+  const { data: currentUser } = useCurrentUserQuery();
 
   const toggleShowAvatarMenu = useCallback(() => {
     setShowAvatarMenu(prevProps => !prevProps);
   }, []);
 
   const renderAvatarMenu = useMemo(
-    () => showAvatarMenu && <AvatarMenu onPressOutside={toggleShowAvatarMenu} />,
-    [showAvatarMenu, toggleShowAvatarMenu]
+    () =>
+      showAvatarMenu &&
+      currentUser && <AvatarMenu currentUser={currentUser} onPressOutside={toggleShowAvatarMenu} />,
+    [currentUser, showAvatarMenu, toggleShowAvatarMenu]
   );
 
   return (
     <>
-      <Tooltip placement="bottom" title={tooltipTitle}>
+      <Tooltip placement="bottom" title={`${currentUser?.firstName} ${currentUser?.lastName}`}>
         <div className={className}>
           <Avatar
             size="large"
-            src="https://hv-hive-drive.s3.amazonaws.com/7driFnaZjDQZndHqs/3ZmvgsLsoHdYEXQMZ/photo_2021-03-01 11.31.59.jpeg"
+            src={currentUser?.image}
             icon={<UserOutlined />}
             onClick={toggleShowAvatarMenu}
           />

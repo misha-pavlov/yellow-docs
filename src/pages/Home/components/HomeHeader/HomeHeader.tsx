@@ -123,7 +123,7 @@ const HomeHeader: FC<HomeHeaderProps> = ({ showOnlyTemplates, toggleShowOnlyTemp
           {renderSearchResults}
         </div>
 
-        <UserAvatar tooltipTitle="username" className="avatar" />
+        <UserAvatar className="avatar" />
       </Container>
 
       {renderSidebar}

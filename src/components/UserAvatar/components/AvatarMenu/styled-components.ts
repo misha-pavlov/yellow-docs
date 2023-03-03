@@ -8,7 +8,7 @@ const bounceOutRightAnimation = keyframes`${bounceOutRight}`;
 
 export const Container = styled.div<{ anim: Bounce }>`
   position: fixed;
-  z-index: 1500;
+  z-index: 6;
   background-color: transparent;
   top: 0;
   width: 100%;

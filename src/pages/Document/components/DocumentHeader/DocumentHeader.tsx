@@ -37,7 +37,7 @@ const DocumentHeader = () => {
           <Button type="primary" icon={<TeamOutlined />}>
             Share
           </Button>
-          <UserAvatar tooltipTitle="docusername" className="avatar" />
+          <UserAvatar className="avatar" />
         </Space>
       </Container>
 
