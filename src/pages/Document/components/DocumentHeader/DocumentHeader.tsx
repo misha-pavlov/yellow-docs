@@ -41,7 +41,6 @@ const DocumentHeader = ({ document }: { document: DocumentType }) => {
             </Space>
 
             <Space>
-              <div className="options">options</div>
               {!isLoadingUserById && userById && (
                 <Text underline className="options">
                   Last edit was made on {moment(document.changedAt).format('MMMM D, YYYY')} by{' '}
