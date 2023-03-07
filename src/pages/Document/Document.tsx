@@ -1,6 +1,10 @@
 import { Space, Spin } from 'antd';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useGetOneDocumentQuery } from '../../store/documentApi/document.api';
+import {
+  useEditDocumentMutation,
+  useGetOneDocumentQuery,
+} from '../../store/documentApi/document.api';
 import { DocumentHeader, DocumentPaper } from './components';
 import { Papers } from './styled-components';
 
@@ -15,6 +19,14 @@ const Document = () => {
     { documentId: documentId as string },
     { skip: !documentId }
   );
+  const [editDocumentMutate] = useEditDocumentMutation();
+
+  useEffect(() => {
+    if (documentId) {
+      editDocumentMutate({ documentId, updateOpenHistory: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (isLoading || !document) {
     return <Spin tip="Loading" size="large" />;

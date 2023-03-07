@@ -6,7 +6,6 @@ export const Container = styled.div`
   width: 270px;
   height: 350px;
   border-radius: 5px;
-  cursor: pointer;
 
   &:hover {
     border-color: ${colors.green};
@@ -14,6 +13,7 @@ export const Container = styled.div`
 
   .content {
     height: 275px;
+    cursor: pointer;
     border-bottom: 1px solid ${colors.gray2};
   }
 

@@ -29,8 +29,8 @@ const Document: FC<DocumentProps> = ({ doc, sort, refetch }) => {
   const date = getDate(sort, doc.openHistory, doc.changedAt, currentUser?._id);
 
   return (
-    <Container onClick={() => navigate(`${constants.routes.Document}/${doc._id}`)}>
-      <div className="content">
+    <Container>
+      <div className="content" onClick={() => navigate(`${constants.routes.Document}/${doc._id}`)}>
         <DocumentPaper content={doc.content} isReadOnly width={1} height={275} />
       </div>
 
