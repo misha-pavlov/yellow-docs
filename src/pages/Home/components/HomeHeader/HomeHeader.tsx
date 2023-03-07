@@ -25,7 +25,7 @@ type HomeHeaderProps = {
 const HomeHeader: FC<HomeHeaderProps> = ({ showOnlyTemplates, toggleShowOnlyTemplates }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const debouncedSearchTerm = useDebounce<string>(searchTerm, 500);
+  const debouncedSearchTerm = useDebounce<string>(searchTerm);
   const navigate = useNavigate();
 
   const toggleIsCollapsed = useCallback(() => {

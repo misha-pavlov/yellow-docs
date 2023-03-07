@@ -1,6 +1,8 @@
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import { Container } from './styled-components';
+import { useDebounce } from '../../../../hooks';
+import { useEditDocumentMutation } from '../../../../store/documentApi/document.api';
 // css
 import 'react-quill/dist/quill.snow.css';
 import './update-quill-styles.css';
@@ -9,11 +11,26 @@ type DocumentPaperProps = {
   content: string;
   width?: number;
   height?: number;
+  documentId?: string;
   isReadOnly?: boolean;
 };
 
-const DocumentPaper: FC<DocumentPaperProps> = ({ content, isReadOnly, width, height }) => {
+const DocumentPaper: FC<DocumentPaperProps> = ({
+  content,
+  isReadOnly,
+  width,
+  height,
+  documentId,
+}) => {
   const [value, setValue] = useState(content);
+  const debouncedValue = useDebounce<string>(value, 1500);
+  const [editDocumentMutate] = useEditDocumentMutation();
+
+  useEffect(() => {
+    if (documentId) {
+      editDocumentMutate({ documentId, newContent: debouncedValue });
+    }
+  }, [debouncedValue, documentId, editDocumentMutate]);
 
   const onChange = useCallback((html: string) => {
     setValue(html);

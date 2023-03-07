@@ -29,7 +29,11 @@ const Document = () => {
   }, []);
 
   if (isLoading || !document) {
-    return <Spin tip="Loading" size="large" />;
+    return (
+      <Space align="center">
+        <Spin tip="Loading" size="large" />
+      </Space>
+    );
   }
 
   return (
@@ -38,7 +42,7 @@ const Document = () => {
 
       <Papers>
         <Space direction="vertical" size={16}>
-          <DocumentPaper content={document.content} />
+          <DocumentPaper content={document.content} documentId={document._id} />
         </Space>
       </Papers>
     </>
