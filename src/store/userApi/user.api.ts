@@ -32,6 +32,7 @@ export const userApi = createApi({
     },
   }),
   endpoints: builder => ({
+    // POST
     signUp: builder.mutation<UserType, SignUpParams>({
       query: ({ firstName, lastName, email, password }) => ({
         url: 'signup',
@@ -55,13 +56,13 @@ export const userApi = createApi({
       }),
     }),
 
+    // GET
     currentUser: builder.query<UserType, void>({
       query: () => ({
         url: 'currentUser',
         method: 'GET',
       }),
     }),
-
     userById: builder.query<UserType, UserByIdParams>({
       query: ({ userId }) => ({
         url: 'userById',
@@ -75,8 +76,8 @@ export const userApi = createApi({
 });
 
 export const {
+  useUserByIdQuery,
   useSignUpMutation,
   useSignInMutation,
   useCurrentUserQuery,
-  useUserByIdQuery,
 } = userApi;

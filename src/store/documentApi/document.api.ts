@@ -17,7 +17,7 @@ type EditDocumentParams = {
   updateOpenHistory?: boolean;
 };
 
-type DeleteDocumentParams = {
+type DocumentIdParams = {
   documentId: string;
 };
 
@@ -35,6 +35,7 @@ export const documentApi = createApi({
     },
   }),
   endpoints: builder => ({
+    // GET
     getRecentDocuments: builder.query<DocumentType[], GetRecentDocumentsParams>({
       query: ({ owned, sort, searchTerm }) => ({
         url: 'getRecentDocuments',
@@ -46,6 +47,11 @@ export const documentApi = createApi({
         },
       }),
     }),
+    getOneDocument: builder.query<DocumentType, DocumentIdParams>({
+      query: ({ documentId }) => ({ url: 'getOne', method: 'GET', params: { documentId } }),
+    }),
+
+    // PATCH
     editDocument: builder.mutation<DocumentType, EditDocumentParams>({
       query: ({
         documentId,
@@ -67,7 +73,9 @@ export const documentApi = createApi({
         },
       }),
     }),
-    deleteDocument: builder.mutation<DocumentType, DeleteDocumentParams>({
+
+    // DELETE
+    deleteDocument: builder.mutation<DocumentType, DocumentIdParams>({
       query: ({ documentId }) => ({
         url: 'delete',
         method: 'DELETE',
@@ -80,6 +88,7 @@ export const documentApi = createApi({
 });
 
 export const {
+  useGetOneDocumentQuery,
   useEditDocumentMutation,
   useDeleteDocumentMutation,
   useGetRecentDocumentsQuery,
