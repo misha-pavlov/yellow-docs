@@ -47,6 +47,7 @@ const RecentDocuments: FC<RecentDocumentsProps> = ({ showOnlyTemplates }) => {
     [isShowMoreMenu]
   );
 
+  // TODO: ADD AND USE SUBSCRIPTION
   const { data, isLoading, refetch } = useGetRecentDocumentsQuery(
     {
       owned,
