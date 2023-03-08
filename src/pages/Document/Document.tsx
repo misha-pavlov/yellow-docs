@@ -1,5 +1,5 @@
 import { Space, Spin } from 'antd';
-import { useEffect } from 'react';
+import { memo, useCallback, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   useEditDocumentMutation,
@@ -17,9 +17,18 @@ const Document = () => {
   const { data: document, isLoading } = useGetOneDocumentQuery(
     // use 'as string', because for handle undefined is skip
     { documentId: documentId as string },
-    { skip: !documentId }
+    { skip: !documentId, pollingInterval: 10000 }
   );
   const [editDocumentMutate] = useEditDocumentMutation();
+
+  const editDocument = useCallback(
+    (userId: string) => {
+      if (documentId) {
+        editDocumentMutate({ documentId, newFavouriteUserId: userId });
+      }
+    },
+    [documentId, editDocumentMutate]
+  );
 
   useEffect(() => {
     if (documentId) {
@@ -27,6 +36,11 @@ const Document = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const renderHeader = useMemo(
+    () => document && <DocumentHeader document={document} editDocument={editDocument} />,
+    [document, editDocument]
+  );
 
   if (isLoading || !document) {
     return (
@@ -38,7 +52,7 @@ const Document = () => {
 
   return (
     <>
-      <DocumentHeader document={document} />
+      {renderHeader}
 
       <Papers>
         <Space direction="vertical" size={16}>
@@ -49,4 +63,4 @@ const Document = () => {
   );
 };
 
-export default Document;
+export default memo(Document);

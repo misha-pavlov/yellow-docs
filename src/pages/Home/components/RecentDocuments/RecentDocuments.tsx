@@ -53,7 +53,7 @@ const RecentDocuments: FC<RecentDocumentsProps> = ({ showOnlyTemplates }) => {
       owned,
       sort,
     },
-    { pollingInterval: 10 }
+    { pollingInterval: 10000 }
   );
 
   // handle show only template mode and animation for hiding and showing recent documents

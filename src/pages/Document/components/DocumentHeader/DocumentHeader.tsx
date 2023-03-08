@@ -1,6 +1,7 @@
 import { FileTextOutlined, StarFilled, StarOutlined, TeamOutlined } from '@ant-design/icons';
 import { Button, Space, Typography } from 'antd';
 import moment from 'moment';
+import { memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserAvatar } from '../../../../components';
 import { constants } from '../../../../config';
@@ -11,12 +12,21 @@ import { Container, Wrapper } from './styled-components';
 
 const { Text } = Typography;
 
-const DocumentHeader = ({ document }: { document: DocumentType }) => {
+const DocumentHeader = ({
+  document,
+  editDocument,
+}: {
+  document: DocumentType;
+  editDocument: (userId: string) => void;
+}) => {
   const navigate = useNavigate();
   const { data: currentUser } = useCurrentUserQuery();
   const { data: userById, isLoading: isLoadingUserById } = useUserByIdQuery({
     userId: document.changedBy,
   });
+  const [isFavourite, setIsFavourite] = useState(
+    document.favouriteInUsers.includes(currentUser?._id || '')
+  );
 
   return (
     <Wrapper>
@@ -30,13 +40,11 @@ const DocumentHeader = ({ document }: { document: DocumentType }) => {
               <Button
                 type="text"
                 size="small"
-                icon={
-                  document.favouriteInUsers.includes(currentUser?._id || '') ? (
-                    <StarFilled />
-                  ) : (
-                    <StarOutlined />
-                  )
-                }
+                onClick={() => {
+                  setIsFavourite(prevProps => !prevProps);
+                  currentUser?._id && editDocument(currentUser._id);
+                }}
+                icon={isFavourite ? <StarFilled /> : <StarOutlined />}
               />
             </Space>
 
@@ -64,4 +72,4 @@ const DocumentHeader = ({ document }: { document: DocumentType }) => {
   );
 };
 
-export default DocumentHeader;
+export default memo(DocumentHeader);
