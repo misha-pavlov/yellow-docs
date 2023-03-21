@@ -6,6 +6,7 @@ export type DocumentType = {
   owner: string;
   visibleFor: [string];
   favouriteInUsers: [string];
+  readOnlyMembers: [string];
   content: string;
   openHistory: Array<{ userId: string; date: Date }>;
 };
@@ -21,4 +22,11 @@ export enum SortEnum {
   LAST_MODIFIED_BY_ME = 'LAST_MODIFIED_BY_ME',
   LAST_MODIFIED = 'LAST_MODIFIED',
   TITLE = 'TITLE',
+}
+
+export enum UserAccessValuesEnum {
+  VIEWER = 'Viewer',
+  EDITOR = 'Editor',
+  OWNER = 'Owner',
+  REMOVE_ACCESS = 'Remove access'
 }

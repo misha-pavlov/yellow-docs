@@ -5,11 +5,18 @@
 
 .input {
     margin-bottom: 16px;
+    position: relative;
 }
 
 .ant-list-item {
     padding-left: 0 !important;
     padding-right: 0 !important;
+}
+
+.ant-list-item:hover {
+    background-color: rgb(215, 215, 232);
+    border-radius: 10px;
+    transition: 1s ease;
 }
 
 .dropdown {

@@ -34,3 +34,13 @@ export const Container = styled(Space)`
     cursor: pointer;
   }
 `;
+
+export const SearchResults = styled.div`
+  padding: 12px;
+  background-color: ${colors.white1};
+  position: absolute;
+  top: 45px;
+  border-radius: 8px;
+  width: 100%;
+  z-index: 1;
+`

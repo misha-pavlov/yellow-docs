@@ -18,6 +18,10 @@ type UserByIdParams = {
   userId: string;
 };
 
+type SearchByEmail = {
+  searchTerm: string;
+};
+
 export const userApi = createApi({
   // reducerPath - name your current file
   reducerPath: 'user.api',
@@ -72,6 +76,15 @@ export const userApi = createApi({
         },
       }),
     }),
+    searchByEmail: builder.query<UserType[], SearchByEmail>({
+      query: ({ searchTerm }) => ({
+        url: 'searchByEmail',
+        method: 'GET',
+        params: {
+          searchTerm,
+        },
+      }),
+    }),
   }),
 });
 
@@ -80,4 +93,5 @@ export const {
   useSignUpMutation,
   useSignInMutation,
   useCurrentUserQuery,
+  useSearchByEmailQuery,
 } = userApi;
