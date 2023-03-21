@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { constants } from '../../config';
 import { DocumentType, OwnedEnum, SortEnum } from '../../types/document.types';
+import { UserType } from './../../types/user.types';
 
 type GetRecentDocumentsParams = {
   searchTerm?: string;
@@ -50,6 +51,13 @@ export const documentApi = createApi({
     getOneDocument: builder.query<DocumentType, DocumentIdParams>({
       query: ({ documentId }) => ({ url: 'getOne', method: 'GET', params: { documentId } }),
     }),
+    getDocumentUsers: builder.query<UserType[], DocumentIdParams>({
+      query: ({ documentId }) => ({
+        url: 'getDocumentUsers',
+        method: 'GET',
+        params: { documentId },
+      }),
+    }),
 
     // PATCH
     editDocument: builder.mutation<DocumentType, EditDocumentParams>({
@@ -90,6 +98,7 @@ export const documentApi = createApi({
 export const {
   useGetOneDocumentQuery,
   useEditDocumentMutation,
+  useGetDocumentUsersQuery,
   useDeleteDocumentMutation,
   useGetRecentDocumentsQuery,
 } = documentApi;
