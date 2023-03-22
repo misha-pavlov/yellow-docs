@@ -20,6 +20,7 @@ type UserByIdParams = {
 
 type SearchByEmail = {
   searchTerm: string;
+  documentId: string;
 };
 
 export const userApi = createApi({
@@ -77,11 +78,12 @@ export const userApi = createApi({
       }),
     }),
     searchByEmail: builder.query<UserType[], SearchByEmail>({
-      query: ({ searchTerm }) => ({
+      query: ({ searchTerm, documentId }) => ({
         url: 'searchByEmail',
         method: 'GET',
         params: {
           searchTerm,
+          documentId,
         },
       }),
     }),

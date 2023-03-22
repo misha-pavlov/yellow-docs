@@ -16,6 +16,7 @@ type EditDocumentParams = {
   newFavouriteUserId?: string;
   newContent?: string;
   updateOpenHistory?: boolean;
+  newReadOnlyMemberId?: string;
 };
 
 type DocumentIdParams = {
@@ -68,6 +69,7 @@ export const documentApi = createApi({
         updateOpenHistory,
         newFavouriteUserId,
         newVisibleForUserId,
+        newReadOnlyMemberId,
       }) => ({
         url: 'edit',
         method: 'PATCH',
@@ -78,6 +80,7 @@ export const documentApi = createApi({
           updateOpenHistory,
           newFavouriteUserId,
           newVisibleForUserId,
+          newReadOnlyMemberId,
         },
       }),
     }),

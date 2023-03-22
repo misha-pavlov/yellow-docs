@@ -22,9 +22,31 @@ const Document = () => {
   const [editDocumentMutate] = useEditDocumentMutation();
 
   const editDocument = useCallback(
-    (userId: string) => {
+    ({
+      newFavouriteUserId,
+      newReadOnlyMemberId,
+    }: {
+      newFavouriteUserId?: string;
+      newReadOnlyMemberId?: string;
+    }) => {
       if (documentId) {
-        editDocumentMutate({ documentId, newFavouriteUserId: userId });
+        if (newFavouriteUserId) {
+          editDocumentMutate({
+            documentId,
+            newFavouriteUserId,
+          });
+        }
+
+        if (newReadOnlyMemberId) {
+          editDocumentMutate({
+            documentId,
+            newReadOnlyMemberId,
+          });
+          editDocumentMutate({
+            documentId,
+            newVisibleForUserId: newReadOnlyMemberId,
+          });
+        }
       }
     },
     [documentId, editDocumentMutate]

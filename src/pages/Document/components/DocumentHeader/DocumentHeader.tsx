@@ -9,19 +9,26 @@ import { Avatar, Button, Dropdown, Input, List, MenuProps, Modal, Space, Typogra
 import moment from 'moment';
 import { ChangeEvent, memo, useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// components
 import { UserAvatar } from '../../../../components';
+import { QuillToolbar } from './components';
+// constants
 import { constants } from '../../../../config';
+// api
 import {
   useCurrentUserQuery,
   useSearchByEmailQuery,
   useUserByIdQuery,
 } from '../../../../store/userApi/user.api';
-import { DocumentType, UserAccessValuesEnum } from '../../../../types/document.types';
-import { QuillToolbar } from './components';
-import { Container, SearchResults, Wrapper } from './styled-components';
 import { useGetDocumentUsersQuery } from '../../../../store/documentApi/document.api';
-import { useDebounce } from '../../../../hooks';
+// types
+import { DocumentType, UserAccessValuesEnum } from '../../../../types/document.types';
+import { UserType } from '../../../../types/user.types';
+// styles
+import { Container, SearchResults, Wrapper } from './styled-components';
 import './documentHeader.css';
+// hooks
+import { useDebounce } from '../../../../hooks';
 
 const { Text } = Typography;
 
@@ -30,26 +37,42 @@ const DocumentHeader = ({
   editDocument,
 }: {
   document: DocumentType;
-  editDocument: (userId: string) => void;
+  editDocument: ({
+    newFavouriteUserId,
+    newReadOnlyMemberId,
+  }: {
+    newFavouriteUserId?: string;
+    newReadOnlyMemberId?: string;
+  }) => void;
 }) => {
   const navigate = useNavigate();
+
+  // STATES
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // QUERIES
   const { data: currentUser } = useCurrentUserQuery();
   const { data: userById, isLoading: isLoadingUserById } = useUserByIdQuery({
     userId: document.changedBy,
   });
-  const { data: documentUsers, isLoading: isLoadingDocumentUsers } = useGetDocumentUsersQuery({
-    documentId: document._id,
-  });
+  const { data: documentUsers, isLoading: isLoadingDocumentUsers } = useGetDocumentUsersQuery(
+    {
+      documentId: document._id,
+    },
+    { pollingInterval: 5000, skip: !isModalOpen }
+  );
 
+  // STATES BY QUERIES
   const [isFavourite, setIsFavourite] = useState(
     document.favouriteInUsers.includes(currentUser?._id || '')
   );
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+
+  // SEARCH
   const debouncedValue = useDebounce<string>(searchTerm, 1500);
 
   const { data: usersByEmail } = useSearchByEmailQuery(
-    { searchTerm: debouncedValue },
+    { searchTerm: debouncedValue, documentId: document._id },
     { skip: !isModalOpen }
   );
 
@@ -65,9 +88,13 @@ const DocumentHeader = ({
     setIsModalOpen(false);
   };
 
-  const onSelect = (item: string) => {
-    console.log('selected item = ', item);
-  };
+  const onSelect = useCallback(
+    (item: UserType) => {
+      editDocument({ newReadOnlyMemberId: item._id });
+      setSearchTerm('');
+    },
+    [editDocument]
+  );
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -133,7 +160,10 @@ const DocumentHeader = ({
             };
 
             return (
-              <List.Item actions={getActions()}>
+              <List.Item
+                actions={getActions()}
+                {...(isSearchResult && { onClick: () => onSelect(item) })}
+              >
                 <List.Item.Meta
                   avatar={<Avatar src={item.image} />}
                   title={<div>{item.email}</div>}
@@ -151,6 +181,7 @@ const DocumentHeader = ({
       documentUsers,
       isLoadingDocumentUsers,
       items,
+      onSelect,
       usersByEmail,
     ]
   );
@@ -169,7 +200,7 @@ const DocumentHeader = ({
                 size="small"
                 onClick={() => {
                   setIsFavourite(prevProps => !prevProps);
-                  currentUser?._id && editDocument(currentUser._id);
+                  currentUser?._id && editDocument({ newFavouriteUserId: currentUser._id });
                 }}
                 icon={isFavourite ? <StarFilled /> : <StarOutlined />}
               />
