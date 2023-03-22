@@ -20,9 +20,16 @@ import {
   useSearchByEmailQuery,
   useUserByIdQuery,
 } from '../../../../store/userApi/user.api';
-import { useGetDocumentUsersQuery } from '../../../../store/documentApi/document.api';
+import {
+  useConvertToMutation,
+  useGetDocumentUsersQuery,
+} from '../../../../store/documentApi/document.api';
 // types
-import { DocumentType, UserAccessValuesEnum } from '../../../../types/document.types';
+import {
+  DocumentType,
+  UserAccessEnum,
+  UserAccessValuesEnum,
+} from '../../../../types/document.types';
 import { UserType } from '../../../../types/user.types';
 // styles
 import { Container, SearchResults, Wrapper } from './styled-components';
@@ -76,6 +83,9 @@ const DocumentHeader = ({
     { skip: !isModalOpen }
   );
 
+  // MUTATIONS
+  const [convertToMutate] = useConvertToMutation();
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -89,11 +99,23 @@ const DocumentHeader = ({
   };
 
   const onSelect = useCallback(
-    (item: UserType) => {
-      editDocument({ newReadOnlyMemberId: item._id });
-      setSearchTerm('');
+    (item: UserType, key?: UserAccessValuesEnum) => {
+      if (!key) {
+        editDocument({ newReadOnlyMemberId: item._id });
+        setSearchTerm('');
+      }
+
+      if (key === UserAccessValuesEnum.REMOVE_ACCESS) {
+        editDocument({ newReadOnlyMemberId: item._id });
+      }
+
+      if (key && [UserAccessValuesEnum.EDITOR, UserAccessValuesEnum.VIEWER].includes(key)) {
+        const newValue =
+          key === UserAccessValuesEnum.EDITOR ? UserAccessEnum.FULL : UserAccessEnum.READ_ONLY;
+        convertToMutate({ userId: item._id, documentId: document._id, accessType: newValue });
+      }
     },
-    [editDocument]
+    [convertToMutate, document._id, editDocument]
   );
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -111,7 +133,7 @@ const DocumentHeader = ({
         label: UserAccessValuesEnum.EDITOR,
       },
       {
-        key: '3',
+        key: UserAccessValuesEnum.REMOVE_ACCESS,
         danger: true,
         label: UserAccessValuesEnum.REMOVE_ACCESS,
       },
@@ -146,7 +168,13 @@ const DocumentHeader = ({
               } else {
                 return [
                   <Dropdown
-                    menu={{ items, selectable: true, defaultSelectedKeys: [userAccessType] }}
+                    menu={{
+                      items,
+                      selectable: true,
+                      defaultSelectedKeys: [userAccessType],
+                      onSelect: (event: { key: string }) =>
+                        onSelect(item, event.key as UserAccessValuesEnum),
+                    }}
                     trigger={['click']}
                     className="dropdown"
                   >

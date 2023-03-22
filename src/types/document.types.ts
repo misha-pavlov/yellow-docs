@@ -30,3 +30,8 @@ export enum UserAccessValuesEnum {
   OWNER = 'Owner',
   REMOVE_ACCESS = 'Remove access'
 }
+
+export enum UserAccessEnum {
+  READ_ONLY = "READ_ONLY",
+  FULL = "FULL",
+}

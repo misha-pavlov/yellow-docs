@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { constants } from '../../config';
-import { DocumentType, OwnedEnum, SortEnum } from '../../types/document.types';
+import { DocumentType, OwnedEnum, SortEnum, UserAccessEnum } from '../../types/document.types';
 import { UserType } from './../../types/user.types';
 
 type GetRecentDocumentsParams = {
@@ -21,6 +21,12 @@ type EditDocumentParams = {
 
 type DocumentIdParams = {
   documentId: string;
+};
+
+type ConvertToParams = {
+  userId: string;
+  documentId: string;
+  accessType: UserAccessEnum;
 };
 
 export const documentApi = createApi({
@@ -84,6 +90,13 @@ export const documentApi = createApi({
         },
       }),
     }),
+    convertTo: builder.mutation<DocumentType, ConvertToParams>({
+      query: ({ documentId, userId, accessType }) => ({
+        url: 'convertTo',
+        method: 'PATCH',
+        body: { documentId, userId, accessType },
+      }),
+    }),
 
     // DELETE
     deleteDocument: builder.mutation<DocumentType, DocumentIdParams>({
@@ -99,6 +112,7 @@ export const documentApi = createApi({
 });
 
 export const {
+  useConvertToMutation,
   useGetOneDocumentQuery,
   useEditDocumentMutation,
   useGetDocumentUsersQuery,
