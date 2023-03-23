@@ -22,6 +22,7 @@ import {
 } from '../../../../store/userApi/user.api';
 import {
   useConvertToMutation,
+  useEditDocumentMutation,
   useGetDocumentUsersQuery,
 } from '../../../../store/documentApi/document.api';
 // types
@@ -36,6 +37,7 @@ import { Container, SearchResults, Wrapper } from './styled-components';
 import './documentHeader.css';
 // hooks
 import { useDebounce } from '../../../../hooks';
+// helpers
 import { emptyTitle } from '../../../../helpers/emptyTitle';
 
 const { Text } = Typography;
@@ -58,6 +60,8 @@ const DocumentHeader = ({
   // STATES
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showInput, setShowInput] = useState(false);
+  const [title, setTitle] = useState(emptyTitle(document.title));
 
   // QUERIES
   const { data: currentUser } = useCurrentUserQuery();
@@ -86,6 +90,7 @@ const DocumentHeader = ({
 
   // MUTATIONS
   const [convertToMutate] = useConvertToMutation();
+  const [editDocumentMutate] = useEditDocumentMutation();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -94,6 +99,8 @@ const DocumentHeader = ({
   const handleOk = () => {
     setIsModalOpen(false);
   };
+
+  const toggleShowInput = () => setShowInput(prevProps => !prevProps);
 
   const onSelect = useCallback(
     (item: UserType, key?: UserAccessValuesEnum) => {
@@ -115,9 +122,16 @@ const DocumentHeader = ({
     [convertToMutate, document._id, editDocument]
   );
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
+  const onChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (showInput) {
+        setTitle(event.target.value);
+      } else {
+        setSearchTerm(event.target.value);
+      }
+    },
+    [showInput]
+  );
 
   const items: MenuProps['items'] = useMemo(
     () => [
@@ -211,6 +225,44 @@ const DocumentHeader = ({
     ]
   );
 
+  const renderTitle = useMemo(() => {
+    if (!showInput) {
+      return (
+        <div className="title" onClick={toggleShowInput}>
+          {title}
+        </div>
+      );
+    } else {
+      const onClick = (isSave?: boolean) => {
+        toggleShowInput();
+
+        if (isSave) {
+          editDocumentMutate({ documentId: document._id, newTitle: title });
+        } else {
+          setTitle(document.title);
+        }
+      };
+
+      return (
+        <Space direction="horizontal">
+          <Input placeholder={title} value={title} size="small" onChange={onChange} />
+          <Button style={{ width: 80 }} onClick={() => onClick(true)} type="primary" size="small">
+            Save
+          </Button>
+          <Button
+            danger
+            size="small"
+            type="primary"
+            style={{ width: 80 }}
+            onClick={() => onClick()}
+          >
+            Close
+          </Button>
+        </Space>
+      );
+    }
+  }, [showInput, title, onChange, editDocumentMutate, document._id, document.title]);
+
   return (
     <Wrapper>
       <Container align="center">
@@ -219,7 +271,7 @@ const DocumentHeader = ({
 
           <Space direction="vertical" size={0}>
             <Space>
-              <div className="title">{emptyTitle(document.title)}</div>
+              {renderTitle}
               <Button
                 type="text"
                 size="small"
@@ -253,7 +305,7 @@ const DocumentHeader = ({
       <QuillToolbar />
 
       <Modal
-        title={`Share "${document.title}"`}
+        title={`Share "${title}"`}
         open={isModalOpen}
         onCancel={handleOk}
         footer={[

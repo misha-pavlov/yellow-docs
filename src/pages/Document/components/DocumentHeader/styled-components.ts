@@ -24,6 +24,7 @@ export const Container = styled(Space)`
 
   .title {
     font-weight: 600;
+    cursor: pointer;
   }
 
   .options {
