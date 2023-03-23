@@ -17,10 +17,10 @@ const Sidebar: FC<SidebarProps> = ({ onPressOutside }) => {
   const [anim, setAnim] = useState(Fade.FadeIn);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data: userSettings } = useGetUserSettingsQuery(undefined, { skip: !isModalOpen });
+  const { data: userSettings } = useGetUserSettingsQuery();
 
   const [displayRecentTemplates, setDisplayRecentTemplates] = useState(
-    userSettings?.settings.displayRecentTemplates || false
+    userSettings?.settings.displayRecentTemplates
   );
 
   const [updateUserSettingsMutate] = useUpdateUserSettingsMutation();
@@ -33,7 +33,7 @@ const Sidebar: FC<SidebarProps> = ({ onPressOutside }) => {
     setIsModalOpen(false);
 
     const newSettings = {
-      displayRecentTemplates,
+      displayRecentTemplates: displayRecentTemplates || false,
     };
 
     updateUserSettingsMutate({ newSettings });

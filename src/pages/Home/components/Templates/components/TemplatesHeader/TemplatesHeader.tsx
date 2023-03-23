@@ -1,6 +1,7 @@
 import { ColumnHeightOutlined, MoreOutlined } from '@ant-design/icons';
 import { Button, Divider, Dropdown, MenuProps, Space } from 'antd';
 import { FC, useState } from 'react';
+import { useUpdateUserSettingsMutation } from '../../../../../../store/userSettingsApi/userSettings.api';
 import { Container } from './styled-components';
 
 type TemplatesHeaderProps = {
@@ -8,22 +9,24 @@ type TemplatesHeaderProps = {
   toggleShowOnlyTemplates: VoidFunction;
 };
 
-const items: MenuProps['items'] = [
-  {
-    label: <span>Hide all templates</span>,
-    key: '0',
-  },
-];
-
 const TemplatesHeader: FC<TemplatesHeaderProps> = ({
   showOnlyTemplates,
   toggleShowOnlyTemplates,
 }) => {
   const [isShowDropdown, setIsShowDropdown] = useState(false);
+  const [updateUserSettingsMutate] = useUpdateUserSettingsMutation();
 
   const toggleDropdown = () => {
     setIsShowDropdown(prevProps => !prevProps);
   };
+
+  const items: MenuProps['items'] = [
+    {
+      key: '0',
+      label: <span>Hide all templates</span>,
+      onClick: () => updateUserSettingsMutate({ newSettings: { displayRecentTemplates: false } }),
+    },
+  ];
 
   return (
     <Container align="center">

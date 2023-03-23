@@ -6,7 +6,10 @@ import { HomeHeader, RecentDocuments, Templates } from './components';
 import { Container, TemplatesModal } from './styled-components';
 import { Flip, Rotate, Slide } from './types';
 import { constants } from '../../config';
-import { useCreateUserSettingsMutation } from '../../store/userSettingsApi/userSettings.api';
+import {
+  useCreateUserSettingsMutation,
+  useGetUserSettingsQuery,
+} from '../../store/userSettingsApi/userSettings.api';
 
 const Home = () => {
   const [showOnlyTemplates, setShowOnlyTemplates] = useState(false);
@@ -16,6 +19,7 @@ const Home = () => {
 
   const navigate = useNavigate();
 
+  const { data: userSettings } = useGetUserSettingsQuery(undefined, { pollingInterval: 5000 });
   const [createUserSettingsMutate] = useCreateUserSettingsMutation();
 
   useEffect(() => {
@@ -83,10 +87,12 @@ const Home = () => {
           toggleShowOnlyTemplates={toggleShowOnlyTemplates}
         />
 
-        <Templates
-          showOnlyTemplates={showOnlyTemplates}
-          toggleShowOnlyTemplates={toggleShowOnlyTemplates}
-        />
+        {userSettings?.settings.displayRecentTemplates && (
+          <Templates
+            showOnlyTemplates={showOnlyTemplates}
+            toggleShowOnlyTemplates={toggleShowOnlyTemplates}
+          />
+        )}
 
         <RecentDocuments showOnlyTemplates={showOnlyTemplates} />
 
