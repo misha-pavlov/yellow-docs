@@ -2,6 +2,7 @@ import { fadeInLeft, fadeOutLeft } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 import { colors } from '../../../../../../config';
 import { Fade } from './types';
+import './sidebar.css'
 
 const fadeInAnimation = keyframes`${fadeInLeft}`;
 const fadeOutAnimation = keyframes`${fadeOutLeft}`;
@@ -17,12 +18,16 @@ export const Container = styled.div<{ anim: Fade }>`
 
   .sidebar {
     background-color: ${colors.white2};
-    width: 20%;
+    width: 8%;
     height: 100vh;
     padding-top: 16px;
     -webkit-box-shadow: 8px 0px 18px -9px rgba(66, 68, 90, 1);
     -moz-box-shadow: 8px 0px 18px -9px rgba(66, 68, 90, 1);
     box-shadow: 8px 0px 18px -9px rgba(66, 68, 90, 1);
+
+    @media (max-width: 1512px) {
+      width: 15%;
+    }
 
     .logo {
       font-size: 24px;

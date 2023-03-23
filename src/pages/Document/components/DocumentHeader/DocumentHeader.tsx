@@ -94,10 +94,6 @@ const DocumentHeader = ({
     setIsModalOpen(false);
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
   const onSelect = useCallback(
     (item: UserType, key?: UserAccessValuesEnum) => {
       if (!key) {
@@ -258,7 +254,7 @@ const DocumentHeader = ({
       <Modal
         title={`Share "${document.title}"`}
         open={isModalOpen}
-        onCancel={handleCancel}
+        onCancel={handleOk}
         footer={[
           <Button key="ok" type="primary" onClick={handleOk}>
             Done

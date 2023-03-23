@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FloatButton } from 'antd';
 import { EditOutlined, FileOutlined, PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { HomeHeader, RecentDocuments, Templates } from './components';
 import { Container, TemplatesModal } from './styled-components';
 import { Flip, Rotate, Slide } from './types';
 import { constants } from '../../config';
+import { useCreateUserSettingsMutation } from '../../store/userSettingsApi/userSettings.api';
 
 const Home = () => {
   const [showOnlyTemplates, setShowOnlyTemplates] = useState(false);
@@ -14,6 +15,13 @@ const Home = () => {
   const [templatesModalAnim, setTemplatesModalAnim] = useState(Slide.SlideInDown);
 
   const navigate = useNavigate();
+
+  const [createUserSettingsMutate] = useCreateUserSettingsMutation();
+
+  useEffect(() => {
+    createUserSettingsMutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const toggleShowOnlyTemplates = () => {
     setShowOnlyTemplates(prevProps => !prevProps);
