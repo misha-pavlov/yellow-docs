@@ -10,6 +10,8 @@ import {
   useCreateUserSettingsMutation,
   useGetUserSettingsQuery,
 } from '../../store/userSettingsApi/userSettings.api';
+import { useCreateDocumentMutation } from '../../store/documentApi/document.api';
+import { DocumentType } from '../../types/document.types';
 
 const Home = () => {
   const [showOnlyTemplates, setShowOnlyTemplates] = useState(false);
@@ -20,7 +22,9 @@ const Home = () => {
   const navigate = useNavigate();
 
   const { data: userSettings } = useGetUserSettingsQuery(undefined, { pollingInterval: 5000 });
+  const displayRecentTemplates = userSettings?.settings.displayRecentTemplates;
   const [createUserSettingsMutate] = useCreateUserSettingsMutation();
+  const [createDocumentMutation] = useCreateDocumentMutation();
 
   useEffect(() => {
     createUserSettingsMutate();
@@ -43,8 +47,14 @@ const Home = () => {
 
   const renderFloatButtons = useMemo(() => {
     // change float button if showTemplates === false
-    const something = null;
-    if (something) {
+    if (!displayRecentTemplates) {
+      const createDocument = () => {
+        createDocumentMutation().then(res => {
+          const newDocumentId = ((res as unknown) as { data: DocumentType }).data._id;
+          navigate(`${constants.routes.Document}/${newDocumentId}`);
+        });
+      };
+
       return (
         <FloatButton.Group
           trigger="hover"
@@ -60,7 +70,7 @@ const Home = () => {
           <FloatButton
             icon={<EditOutlined />}
             tooltip={<div>Create new document</div>}
-            onClick={() => navigate(`${constants.routes.Document}/123`)}
+            onClick={createDocument}
           />
         </FloatButton.Group>
       );
@@ -77,7 +87,7 @@ const Home = () => {
         />
       )
     );
-  }, [navigate, showTemplatesModal]);
+  }, [createDocumentMutation, displayRecentTemplates, navigate, showTemplatesModal]);
 
   return (
     <>
@@ -87,7 +97,7 @@ const Home = () => {
           toggleShowOnlyTemplates={toggleShowOnlyTemplates}
         />
 
-        {userSettings?.settings.displayRecentTemplates && (
+        {(displayRecentTemplates || showOnlyTemplates) && (
           <Templates
             showOnlyTemplates={showOnlyTemplates}
             toggleShowOnlyTemplates={toggleShowOnlyTemplates}

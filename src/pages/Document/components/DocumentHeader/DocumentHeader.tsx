@@ -36,6 +36,7 @@ import { Container, SearchResults, Wrapper } from './styled-components';
 import './documentHeader.css';
 // hooks
 import { useDebounce } from '../../../../hooks';
+import { emptyTitle } from '../../../../helpers/emptyTitle';
 
 const { Text } = Typography;
 
@@ -218,7 +219,7 @@ const DocumentHeader = ({
 
           <Space direction="vertical" size={0}>
             <Space>
-              <div className="title">{document.title}</div>
+              <div className="title">{emptyTitle(document.title)}</div>
               <Button
                 type="text"
                 size="small"

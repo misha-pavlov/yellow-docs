@@ -2,8 +2,10 @@ import { Space } from 'antd';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { constants } from '../../../../config';
+import { useCreateDocumentMutation } from '../../../../store/documentApi/document.api';
 import { TemplateCard, TemplatesHeader } from './components';
 import { Container } from './styled-components';
+import { DocumentType } from '../../../../types/document.types';
 
 type TemplatesProps = {
   showOnlyTemplates: boolean;
@@ -19,6 +21,14 @@ const Templates: FC<TemplatesProps> = ({
   isInModal,
 }) => {
   const navigate = useNavigate();
+  const [createDocumentMutation] = useCreateDocumentMutation();
+
+  const createDocument = () => {
+    createDocumentMutation().then(res => {
+      const newDocumentId = ((res as unknown) as { data: DocumentType }).data._id;
+      navigate(`${constants.routes.Document}/${newDocumentId}`);
+    });
+  };
 
   return (
     <Container isInModal={isInModal}>
@@ -31,7 +41,7 @@ const Templates: FC<TemplatesProps> = ({
         <TemplateCard
           isBlankCard
           title={BLANK}
-          onClick={() => navigate(`${constants.routes.Document}/1234`)}
+          onClick={createDocument}
         />
         <TemplateCard
           title="Meeting notes"

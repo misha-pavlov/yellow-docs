@@ -108,6 +108,14 @@ export const documentApi = createApi({
         },
       }),
     }),
+
+    // POST
+    createDocument: builder.mutation<DocumentType, void>({
+      query: () => ({
+        url: 'create',
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -116,6 +124,7 @@ export const {
   useGetOneDocumentQuery,
   useEditDocumentMutation,
   useGetDocumentUsersQuery,
+  useCreateDocumentMutation,
   useDeleteDocumentMutation,
   useGetRecentDocumentsQuery,
 } = documentApi;

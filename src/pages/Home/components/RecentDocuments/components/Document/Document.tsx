@@ -5,6 +5,7 @@ import { FC, memo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MoreButton } from '..';
 import { constants } from '../../../../../../config';
+import { emptyTitle } from '../../../../../../helpers/emptyTitle';
 import { useCurrentUserQuery } from '../../../../../../store/userApi/user.api';
 import { DocumentType, SortEnum } from '../../../../../../types/document.types';
 import { DocumentPaper } from '../../../../../Document/components';
@@ -37,7 +38,7 @@ const Document: FC<DocumentProps> = ({ doc, sort, refetch }) => {
       <div className="info">
         <div className="title">
           {/* if title.length >= 30 use replace if not just show a title */}
-          {doc.title.replace(/^(.{11}[^\s]*).*/, '$1...')}
+          {emptyTitle(doc.title).replace(/^(.{12}[^\s]*).*/, '$1...')}
         </div>
 
         <div className="sub-title">
