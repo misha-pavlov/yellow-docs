@@ -29,6 +29,12 @@ type ConvertToParams = {
   accessType: UserAccessEnum;
 };
 
+type ApplyTemplateParams = {
+  title: string;
+  owner: string;
+  content: string;
+};
+
 export const documentApi = createApi({
   // reducerPath - name your current file
   reducerPath: 'document.api',
@@ -116,6 +122,17 @@ export const documentApi = createApi({
         method: 'POST',
       }),
     }),
+    applyTemplate: builder.mutation<DocumentType, ApplyTemplateParams>({
+      query: ({ owner, title, content }) => ({
+        url: 'applyTemplate',
+        method: 'POST',
+        body: {
+          owner,
+          title,
+          content,
+        },
+      }),
+    }),
   }),
 });
 
@@ -124,6 +141,7 @@ export const {
   useGetOneDocumentQuery,
   useEditDocumentMutation,
   useGetDocumentUsersQuery,
+  useApplyTemplateMutation,
   useCreateDocumentMutation,
   useDeleteDocumentMutation,
   useGetRecentDocumentsQuery,

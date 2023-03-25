@@ -1,11 +1,17 @@
-import { Space } from 'antd';
-import { FC } from 'react';
+import { List, Space, Spin } from 'antd';
+import { FC, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+import { SerializedError } from '@reduxjs/toolkit';
 import { constants } from '../../../../config';
-import { useCreateDocumentMutation } from '../../../../store/documentApi/document.api';
+import {
+  useApplyTemplateMutation,
+  useCreateDocumentMutation,
+} from '../../../../store/documentApi/document.api';
 import { TemplateCard, TemplatesHeader } from './components';
 import { Container } from './styled-components';
 import { DocumentType } from '../../../../types/document.types';
+import { useGetTemplatesForUserQuery } from '../../../../store/templatesApi/templates.api';
 
 type TemplatesProps = {
   showOnlyTemplates: boolean;
@@ -14,6 +20,7 @@ type TemplatesProps = {
 };
 
 const BLANK = 'Blank';
+const DEFAULT_LIMIT = 6;
 
 const Templates: FC<TemplatesProps> = ({
   showOnlyTemplates,
@@ -22,13 +29,89 @@ const Templates: FC<TemplatesProps> = ({
 }) => {
   const navigate = useNavigate();
   const [createDocumentMutation] = useCreateDocumentMutation();
+  const [applyTemplateMutation] = useApplyTemplateMutation();
+  const {
+    data: templatesForUser,
+    isLoading: templatesForUserLoading,
+  } = useGetTemplatesForUserQuery({
+    // use undefined for showing all templates
+    limit: showOnlyTemplates ? undefined : DEFAULT_LIMIT,
+  });
 
-  const createDocument = () => {
-    createDocumentMutation().then(res => {
+  const thenCreateDocument = useCallback(
+    (
+      res:
+        | {
+            data: DocumentType;
+          }
+        | {
+            error: FetchBaseQueryError | SerializedError;
+          }
+    ) => {
       const newDocumentId = ((res as unknown) as { data: DocumentType }).data._id;
       navigate(`${constants.routes.Document}/${newDocumentId}`);
-    });
+    },
+    [navigate]
+  );
+
+  const createDocument = () => {
+    createDocumentMutation().then(thenCreateDocument);
   };
+
+  const renderTemplates = useMemo(() => {
+    if (templatesForUserLoading || !templatesForUser) {
+      return <Spin />;
+    }
+
+    if (!showOnlyTemplates) {
+      return templatesForUser.map((template, index) => {
+        const { owner, title, content } = template;
+
+        return (
+          <TemplateCard
+            key={index}
+            title={title}
+            content={content}
+            onClick={() =>
+              applyTemplateMutation({ owner, title, content }).then(thenCreateDocument)
+            }
+          />
+        );
+      });
+    }
+
+    if (showOnlyTemplates) {
+      return (
+        <List
+          grid={{
+            column: 6,
+          }}
+          dataSource={templatesForUser}
+          renderItem={template => {
+            const { owner, title, content } = template;
+
+            return (
+              <List.Item>
+                <TemplateCard
+                  title={title}
+                  content={content}
+                  onClick={() =>
+                    applyTemplateMutation({ owner, title, content }).then(thenCreateDocument)
+                  }
+                />
+              </List.Item>
+            );
+          }}
+        />
+      );
+    }
+  }, [
+    applyTemplateMutation,
+    showOnlyTemplates,
+    templatesForUser,
+    templatesForUserLoading,
+    thenCreateDocument,
+  ]);
 
   return (
     <Container isInModal={isInModal}>
@@ -38,33 +121,8 @@ const Templates: FC<TemplatesProps> = ({
       />
 
       <Space size={16} className="render-templates">
-        <TemplateCard
-          isBlankCard
-          title={BLANK}
-          onClick={createDocument}
-        />
-        <TemplateCard
-          title="Meeting notes"
-          subTitle="Modern white"
-          onClick={() => console.log('123')}
-        />
-        <TemplateCard
-          title="Project proposai"
-          subTitle="Tropic"
-          onClick={() => console.log('123')}
-        />
-        <TemplateCard
-          title="Project proposai"
-          subTitle="Spearmint"
-          onClick={() => console.log('123')}
-        />
-        <TemplateCard title="Brochure" subTitle="Geometric" onClick={() => console.log('123')} />
-        <TemplateCard title="Newsletter" subTitle="Lively" onClick={() => console.log('123')} />
-        <TemplateCard
-          title="Buisness letter"
-          subTitle="Geometric"
-          onClick={() => console.log('123')}
-        />
+        {!showOnlyTemplates && <TemplateCard isBlankCard title={BLANK} onClick={createDocument} />}
+        {renderTemplates}
       </Space>
     </Container>
   );

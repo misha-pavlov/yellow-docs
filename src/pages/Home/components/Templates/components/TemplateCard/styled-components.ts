@@ -39,9 +39,4 @@ export const CardInfoContainer = styled.div<{ isBlankCard?: boolean }>`
     /* for cards which without sub-title */
     ${({ isBlankCard }) => isBlankCard && 'margin-bottom: 13px'}
   }
-
-  .sub-title {
-    font-size: 13px;
-    color: ${colors.gray1};
-  }
 `;

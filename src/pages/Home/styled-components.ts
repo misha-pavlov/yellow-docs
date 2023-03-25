@@ -36,7 +36,8 @@ export const TemplatesModal = styled.div<{ templatesModalAnim: Slide }>`
   .templates {
     background-color: ${colors.white1};
     width: 100%;
-    padding-left: 12.5%;
+    display: flex;
+    justify-content: center;
     animation: 1s
       ${({ templatesModalAnim }) =>
         templatesModalAnim === Slide.SlideInDown ? slideOutUpAnimation : slideInDownAnimation};

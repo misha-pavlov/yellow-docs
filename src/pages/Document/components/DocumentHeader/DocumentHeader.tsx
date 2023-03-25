@@ -1,11 +1,23 @@
 import {
   DownOutlined,
   FileTextOutlined,
+  SaveOutlined,
   StarFilled,
   StarOutlined,
   TeamOutlined,
 } from '@ant-design/icons';
-import { Avatar, Button, Dropdown, Input, List, MenuProps, Modal, Space, Typography } from 'antd';
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  Input,
+  List,
+  MenuProps,
+  Modal,
+  Space,
+  Tooltip,
+  Typography,
+} from 'antd';
 import moment from 'moment';
 import { ChangeEvent, memo, useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -25,6 +37,7 @@ import {
   useEditDocumentMutation,
   useGetDocumentUsersQuery,
 } from '../../../../store/documentApi/document.api';
+import { useCreateTemplateMutation } from '../../../../store/templatesApi/templates.api';
 // types
 import {
   DocumentType,
@@ -91,6 +104,7 @@ const DocumentHeader = ({
   // MUTATIONS
   const [convertToMutate] = useConvertToMutation();
   const [editDocumentMutate] = useEditDocumentMutation();
+  const [createTemplatesMutate, { isLoading: createTemplateLoading }] = useCreateTemplateMutation();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -295,6 +309,18 @@ const DocumentHeader = ({
         </Space>
 
         <Space size={16}>
+          <Tooltip title="Save as template">
+            <Button
+              icon={<SaveOutlined />}
+              loading={createTemplateLoading}
+              onClick={() =>
+                createTemplatesMutate({
+                  title: `${title} template`,
+                  content: document.content,
+                })
+              }
+            />
+          </Tooltip>
           <Button type="primary" icon={<TeamOutlined />} onClick={showModal}>
             Share
           </Button>
