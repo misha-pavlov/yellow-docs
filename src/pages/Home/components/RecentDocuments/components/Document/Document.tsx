@@ -28,6 +28,7 @@ const Document: FC<DocumentProps> = ({ doc, sort, refetch }) => {
   };
 
   const date = getDate(sort, doc.openHistory, doc.changedAt, currentUser?._id);
+  const title = emptyTitle(doc.title);
 
   return (
     <Container>
@@ -37,8 +38,7 @@ const Document: FC<DocumentProps> = ({ doc, sort, refetch }) => {
 
       <div className="info">
         <div className="title">
-          {/* if title.length >= 30 use replace if not just show a title */}
-          {emptyTitle(doc.title).replace(/^(.{12}[^\s]*).*/, '$1...')}
+          {title.length <= 20 ? title : title.substr(0, title.length - (title.length - 20)) + '...'}
         </div>
 
         <div className="sub-title">

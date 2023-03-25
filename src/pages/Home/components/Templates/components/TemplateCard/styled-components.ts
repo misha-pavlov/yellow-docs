@@ -36,7 +36,5 @@ export const CardInfoContainer = styled.div<{ isBlankCard?: boolean }>`
 
   .title {
     font-weight: 500;
-    /* for cards which without sub-title */
-    ${({ isBlankCard }) => isBlankCard && 'margin-bottom: 13px'}
   }
 `;
